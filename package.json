@@ -1,0 +1,27 @@
+{
+  "name": "kviz-nj-vi",
+  "version": "0.0.1",
+  "description": "Kviz na nemcinu",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vochosp/kviz-nj-vi.git"
+  },
+  "keywords": [
+    "nj"
+  ],
+  "author": "VI inc.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vochosp/kviz-nj-vi/issues"
+  },
+  "homepage": "https://github.com/vochosp/kviz-nj-vi#readme",
+  "dependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
