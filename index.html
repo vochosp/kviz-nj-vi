@@ -14,10 +14,14 @@
 
 
 
-<div class="buttons">
+<div id="quizbuttons" class="buttons">
     <button id="1" class="button" onclick="reply_click(this.id)">Quiz1</button><br>
     <button id="2" class="button" onclick="reply_click(this.id)">Quiz2</button><br>
     <button id="3" class="button" onclick="reply_click(this.id)">Quiz3</button><br>
+</div>
+
+<div id="homebutton" class="buttons" style="display: none;">
+    <button id="0" class="button" onclick="reply_click(this.id)">HOME</button><br>
 </div>
 
 
@@ -36,14 +40,40 @@
 </body>
 
 <script type="text/javascript">
-    function reply_click(clicked_id)
-    {
+    function toggle_div(divid){
+        var x = document.getElementById(divid);
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+             x.style.display = "none";
+        }
+    };
+    
+    function reply_click(clicked_id){
         /*
         Alert potom get predani id do url
         */
         alert("ID tlacitka je: "+clicked_id);
-        location.href = '../?quizid='+clicked_id
-    }
+        console.log(clicked_id);
+        location.href = '../?quizid='+clicked_id;
+        
+        
+    };
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    const quizid = urlParams.get('quizid');
+    console.log(quizid);
+
+    if(quizid >= 1 && quizid <= 3){
+        toggle_div("quizbuttons");
+        toggle_div("homebutton")
+    };
+
+    
+
+    
   </script>
 
 </html>
