@@ -51,7 +51,7 @@
     
     function reply_click(clicked_id){
         /*
-        Alert potom get predani id do url
+            Alert potom get predani id do url
         */
         alert("ID tlacitka je: "+clicked_id);
         console.log(clicked_id);
@@ -60,6 +60,11 @@
         
     };
 
+
+    /*
+        recyklace getu, bude třeba časem optimalizovat
+        vyuziti moji funkce togglediv na prepinani viditelnosti tlacitek
+    */
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
 
