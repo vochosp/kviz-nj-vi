@@ -35,7 +35,7 @@ http.createServer(function (req, res) {
 	else if(url === '/main.js') {
         //main sript js
         res.writeHead(200, {'Content-Type': 'text/javaScript'});
-        res.write(fs.readFileSync('main.js'));
+        res.write(fs.readFileSync('main.js').toString());
         res.end()
     }
 	else {
@@ -47,10 +47,16 @@ http.createServer(function (req, res) {
 			getdata = req.url.split("?");
 			console.log(getdata);
 		};
+		// Basic nacteni html
+		site_code = fs.readFileSync('index.html').toString()
+		// Nacteni sablony quest1
+		// Staci zkopirovat pod a nastavit svuj soubor sablony a text k nahrazeni
+		site_code = site_code.replace("#1000#", fs.readFileSync("./templates/quest1.html").toString())
+        
 
-		
 
-        res.write(fs.readFileSync('index.html').toString()); 
+		// Odeslani cele promene do resultu
+		res.write(site_code); 
 		res.end(); 
 	}
 }).listen(3000, function() {

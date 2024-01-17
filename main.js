@@ -19,7 +19,6 @@ function reply_click(clicked_id){
     
 };
 
-
 /*
     recyklace getu, bude třeba časem optimalizovat
     vyuziti moji funkce togglediv na prepinani viditelnosti tlacitek
@@ -35,3 +34,5 @@ if(quizid >= 1 && quizid <= 3){
     toggle_div("homebutton")
     toggle_div("game")
 };
+
+insert_in_div("1000");
