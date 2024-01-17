@@ -1,8 +1,0 @@
-"Buchstabenrätsel. Errate das Wort.";
-3000; ["I", "O", "K, "S", "E", "Y", "E", "H", "C"]; "Eishockey";
-3001; ["L", "U", "F", "N", "I", "E", "E", "S", "A"]; "Eislaufen";
-3002; ["D", "R", "A", "W", "N", "O", "B", "S", "O",  "H", "N", "F", "A", "R", "E"]; "Snowboard fahren";
-3003; ["T", "L", "N", "O", "H", "I", "B", "A"]; "Biathlon";
-3004; ["N", "I", "G", "C", "U", "L", "R"]; "Curling";
-3005; ["F", "N", "G", "L", "U", "A", "I", "S", "K", "L", "A"]; "Skilanglauf";
-3006; ["U", "N", "E", "A", "L", "F", "S", "I", "S", "T", "U", "K"]; "Eiskunstlauf";
