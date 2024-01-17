@@ -12,8 +12,9 @@ function reply_click(clicked_id){
         Alert potom get predani id do url
     */
     /*alert("ID tlacitka je: "+clicked_id); */
+    /* pridano ID otazky */
     console.log(clicked_id);
-    location.href = '../?quizid='+clicked_id;
+    location.href = '../?quizid='+clicked_id+'&id=0000';
     
     
 };
