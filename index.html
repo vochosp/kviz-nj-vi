@@ -20,8 +20,14 @@
     <button id="3" class="button" onclick="reply_click(this.id)">Quiz3</button><br>
 </div>
 
-<div id="homebutton" class="buttons" style="display: none;">
+<div id="homebutton" class="buttons home" style="display: none;">
     <button id="0" class="button" onclick="reply_click(this.id)">HOME</button><br>
+</div>
+
+
+
+<div id="game" class="game" style="display: none">
+    <h1>placeholder</h1>
 </div>
 
 
@@ -30,12 +36,8 @@
 
 
 
-
-
-
-
     <div class="footer">
-        &copy; Copyright 2024 www.spieldequiz.cz <br> alpha verze
+        &copy; Copyright 2024 www.spieldequiz.xyz <br> alpha verze
     </div>
 </body>
 
@@ -74,6 +76,7 @@
     if(quizid >= 1 && quizid <= 3){
         toggle_div("quizbuttons");
         toggle_div("homebutton")
+        toggle_div("game")
     };
 
     
