@@ -52,6 +52,8 @@ http.createServer(function (req, res) {
 		// Nacteni sablony quest1
 		// Staci zkopirovat pod a nastavit svuj soubor sablony a text k nahrazeni
 		site_code = site_code.replace("#1000#", fs.readFileSync("./templates/quest1.html").toString())
+		//Pridani sablony pictureDef
+		site_code = site_code.replace("#4000#", fs.readFileSync("./templates/pictureDef.html").toString())
         
 
 
