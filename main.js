@@ -39,5 +39,3 @@ if(quizid >= 1 && quizid <= 3){
     toggle_div("homebutton")
     toggle_div("game")
 };
-
-insert_in_div("1000");
