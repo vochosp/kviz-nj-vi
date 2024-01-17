@@ -32,6 +32,12 @@ http.createServer(function (req, res) {
         res.write(fs.readFileSync('favicon.ico'));
         res.end()
     }
+	else if(url === '/main.js') {
+        //main sript js
+        res.writeHead(200, {'Content-Type': 'text/javaScript'});
+        res.write(fs.readFileSync('main.js'));
+        res.end()
+    }
 	else {
 		//HOMEPAGE
         res.writeHead(200, {'Content-Type': 'text/html'});
