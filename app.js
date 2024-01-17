@@ -38,6 +38,13 @@ http.createServer(function (req, res) {
         res.write(fs.readFileSync('main.js').toString());
         res.end()
     }
+	else if(url === '/pictureDefinition'){
+		//pictureDefinition html
+		res.writeHead(200, {'Content-Type': 'text/html'});
+		temp = (fs.readFileSync('index.html').toString()) //načte se index template
+        res.write(temp.replace("#template#", fs.readFileSync('./templates/pictureDef.html').toString())) //v těle indexu se replacne html body z PictureDef.html
+		res.end(); 
+	}
 	else {
 		//HOMEPAGE
         res.writeHead(200, {'Content-Type': 'text/html'});
@@ -48,7 +55,8 @@ http.createServer(function (req, res) {
 			console.log(getdata);
 		};
 		// Basic nacteni html
-		site_code = fs.readFileSync('index.html').toString()
+		index = fs.readFileSync('index.html').toString()
+		site_code = index.replace("#template#", fs.readFileSync('./templates/test.html').toString())
 		// Nacteni sablony quest1
 		// Staci zkopirovat pod a nastavit svuj soubor sablony a text k nahrazeni
 		site_code = site_code.replace("#1000#", fs.readFileSync("./templates/quest1.html").toString())
