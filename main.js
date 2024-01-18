@@ -29,10 +29,13 @@ const urlParams = new URLSearchParams(queryString);
 const quizid = urlParams.get('quizid');
 console.log(quizid);
 
+/*Dá se na onclick buttonu odkazující na stránku*/
+function go_to_URL(buttonURL){
+    location.href= '../'+buttonURL
+}
+
 if(quizid >= 1 && quizid <= 3){
     toggle_div("quizbuttons");
     toggle_div("homebutton")
     toggle_div("game")
 };
-
-insert_in_div("1000");
