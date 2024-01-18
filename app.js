@@ -11,11 +11,11 @@ app.get('/', (req, res)=>{
 
 	//Script na GET. data ulozena v promenne prozatim v plain textu bez parsu
 	if (url.split("?").length > 1){
-		getdata = req.url.split("?");			console.log(getdata);
+		getdata = req.url.split("?");
+		console.log(getdata);
 	};
 	// Basic nacteni html
-	index = fs.readFileSync('index.html').toString()
-	site_code = index.replace("#template#", fs.readFileSync('./templates/test.html').toString())
+	site_code = fs.readFileSync('index.html').toString()
 	// Nacteni sablony quest1
 	// Staci zkopirovat pod a nastavit svuj soubor sablony a text k nahrazeni
 	site_code = site_code.replace("#1000#", fs.readFileSync("./templates/quest1.html").toString())
@@ -45,14 +45,14 @@ app.get('/quiz', (req, res)=>{
 	res.end();
 })
 
-app.get('/pictureDefinition', (req, res)=>{
+/*app.get('/pictureDefinition', (req, res)=>{
 	//pictureDefinition html
 	const url = req.url;
 	res.writeHead(200, {'Content-Type': 'text/html'});
 	temp = (fs.readFileSync('index.html').toString()) //načte se index template
 	res.write(temp.replace("#template#", fs.readFileSync('./templates/pictureDef.html').toString())) //v těle indexu se replacne html body z PictureDef.html
 	res.end(); 
-})
+})*/
 
 app.get('/favicon.ico', (req, res)=>{
 	const url = req.url;
