@@ -13,7 +13,7 @@
 <script>
 const queryStringNaTuhleSracku = window.location.search;
 const urlParameters = new URLSearchParams(queryStringNaTuhleSracku);
-const urlImageId = urlParameters.get('id') 
+const urlImageId = urlParameters.get('id') //idčko z URL 
 
 const csvSports = `
         4000; bobfahren
@@ -35,54 +35,58 @@ const csvSports = `
     `;
 
 
-const maximumQuestionId = 4015
-let playerScore = 0
-const buttonList = document.getElementsByClassName("4000button") 
-let imageAnswerList = [];
+const maximumQuestionId = 4015 //id poslední otázky
+let playerScore = 0 
+const buttonList = document.getElementsByClassName("4000button")  //list HTML buttonů
+let imageList = []; //list pro uložení csv pro volání po indexech
 
+//a tu jest funkce, co to předělá na indexovaný objekty v obřím listu - a ano, ten trim funguje jen napůl
 const pictureRows = csvSports.trim().split('\n');
-for (const image of pictureRows) {
-    const [id, sport] = image.split(';');
-    imageAnswerList.push({id, sport});
+for (const imageRow of pictureRows) {
+    const [id, definition] = imageRow.split(';');
+    imageList.push({id, definition});
 }
 
 //-------------------------------------------------------------------------------------------------------
 
-function get_random_index(maximumIndex) {
+//funkce, která vyhodí random číselnej index, který je menší než maximum
+function get_random_pictureList_index(maximumIndex) {
   return Math.floor(Math.random() * maximumIndex);
 }
 
-
+//funkce pro vložení správné odpovědi podle ID v URL - vysvětlím v průběhu
 function insert_image_and_answers(id){
-    for (imageCSV of imageAnswerList){
-        if(imageCSV['id'].trim() == id){
-            document.getElementById("image").setAttribute("alt", imageCSV["sport"])
-            RandomRightAnswer = get_random_index(4)
-            buttonList[RandomRightAnswer].id = urlImageId
-            buttonList[RandomRightAnswer].innerHTML = imageCSV['sport']
+    for (image of imageList){
+        if(image['id'].trim() == id){ //porovnám jestli se idčko v url rovná idčku fotky a definice v objektu (je to to samý)
+            document.getElementById("image").setAttribute("alt", image["definition"])
+            //tady pak přidat src pro <img>
+            RightAnswer = get_random_pictureList_index(4)//nastavím random tlačítku id z URL (správná odpověď) a definici
+            buttonList[RightAnswer].id = urlImageId
+            buttonList[RightAnswer].innerHTML = image['definition'] 
         }
     }
 
-
-    let temporaryIndexList = []
-    let neededLenght = 0
-    while(neededLenght<4){
-        temporary = get_random_index(16)
-        if(!temporaryIndexList.includes(temporary) && imageAnswerList[temporary]["id"] !== urlImageId){
-            temporaryIndexList.push(temporary)
-            neededLenght+=1
+    //v týhle části se jen dodělávají špatný tlačítka
+    let imageDefinitionIndexList = [] //tu bude list na to, abych si uložil 3 random indexy na kradení si random definic z CSV
+    let Lenght = 0
+    while(Lenght<4){
+        temporaryIndex = get_random_pictureList_index(16)
+        //kontroluju, jestli list už neobsahuje id, aby nebylo dvakrát a jestli se nerovná id URL, aby nebyly dvě správné odpovědi
+        if(!imageDefinitionIndexList.includes(temporaryIndex) && imageList[temporaryIndex]["id"] !== urlImageId){
+            imageDefinitionIndexList.push(temporaryIndex)
+            Lenght+=1
         }
     }
 
-
+    //podle listu nastavím definice pro zbytek tlačítek, který nemaj URL id
     for(let i = 0; i<4; i++){
         if(buttonList[i].id !== urlImageId){
-            buttonList[i].innerHTML = imageAnswerList[temporaryIndexList[i]]["sport"]
+            buttonList[i].innerHTML = imageList[imageDefinitionIndexList[i]]["definition"]
         }
     }
 }
 
-
+//získám si kliklý tlačítko a pokud se jeho idčko rovná id v URL, vypíče se "Right Answer"
 function show_right_wrong_answer(clickedButtonId){
     userAnswer = document.getElementById(clickedButtonId).id
     wrongRightText = document.getElementById("answer")
@@ -100,8 +104,6 @@ function show_right_wrong_answer(clickedButtonId){
 
 insert_image_and_answers(urlImageId)
 
-
-//document.body.innerHTML = document.body.innerHTML.replace('#tuFotku#', 'hi')
 
 
 </script>
