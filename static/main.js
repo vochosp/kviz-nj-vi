@@ -11,16 +11,16 @@ function toggle_div(divid){
 };
 
 const templateId = urlParams.get('id') //získá tisícový id hry z URL
-console.log(templateId)
+console.log(templateId[0])
 
 /*simply udělá list divů podle classy, kterou jsem jim přidělil (templateDiv)
 a pokud se idčko divu nerovná idčku templatu z url, je jeho style.display nastavený na none - nevypisuje se
 */
 
 function display_specific(divId){   
-    const templatesIdslist = document.getElementsByClassName(divId);
+    const templatesIdslist = document.getElementsByClassName(divId); //je to class, ne id
     for (let i = 0; i<templatesIdslist.length; i++){
-        if (templatesIdslist[i].id === templateId){
+        if (templatesIdslist[i].id[0] === templateId[0]){
             templatesIdslist[i].style.display = "block"
         } else{
             templatesIdslist[i].style.display = "none"
@@ -39,7 +39,6 @@ function reply_click(clicked_id){
     
     
 };
-
 
 /*
     recyklace getu, bude třeba časem optimalizovat
