@@ -1,6 +1,94 @@
-dopln vetu
-<div id="sent1">veta</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fill in the Blank</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
 
+        #quizContainer {
+            max-width: 500px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
 
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
 
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #sentence {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="quizContainer">
+    <p id="sentence"></p>
+    <input type="text" id="userInput" placeholder="Enter your answer">
+    <button type="button" onclick="validateAnswer()">Validate</button>
+</div>
+
+<script>
+    // Sample CSV data
+    const csvData = `
+        1000;Im Sommer spiele ich gerne ### mit meinen Freunden im Park.;Fussball;
+        1001;Wir gehen oft in die See ###, um uns abzukühlen.;schwimmen;
+        1002;Radfahren ist eine beliebte ### während der warmen Monate.;Aktivität;
+        1003;Für das ### braucht man bequeme Schuhe und einen Rucksack.;Wandern;
+        1004;In den Sommerferien ### ich gerne am Strand.;surfe;
+        1005;Mein Bruder mag ### und spielt es regelmäßig auf dem Tennisplatz.;Tennis;
+        1006;Die ### ist wichtig, um sich vor der Sonne zu schützen.;Sonnenschutzcreme;
+        1007;Ich träume davon, auf einem großen See zu ###.;segeln;
+        1008;Ein ### ist notwendig, wenn man mit dem Fahrrad unterwegs ist.;Fahrradhelm;
+        1009;Im Sommer besuchen wir oft ###.;Freibad;
+    `;
+
+    // Parse CSV data
+    const csvRows = csvData.trim().split('\n');
+    const randomIndex = Math.floor(Math.random() * csvRows.length);
+    const randomRow = csvRows[randomIndex].split(';');
+
+    const sentence = randomRow[1];
+    const correctAnswer = randomRow[2];
+    console.log(randomRow[2])
+    // Display sentence
+    document.getElementById('sentence').innerText = sentence.replace("###", "________");
+
+    // Validate user's answer
+    function validateAnswer() {
+        const userInput = document.getElementById('userInput').value.trim();
+
+        if (userInput === correctAnswer) {
+            alert('Correct answer!');
+        } else {
+            alert('Incorrect answer. Try again.');
+        }
+    }
+</script>
+
+</body>
+</html>
