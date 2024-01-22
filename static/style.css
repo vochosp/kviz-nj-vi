@@ -34,6 +34,15 @@
     border: 3px black solid;
 }
 .picDefContainer{
+    display: flex;
     text-align: center;
     border: 3px solid black;
+}
+#odpovedi{
+    width: 50%;
+}
+#nahradaFotky{
+    text-align: center;
+    background-color: blue;
+    width: 50%;
 }

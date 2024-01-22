@@ -1,6 +1,48 @@
 <div id = pictures class = picDefContainer>
-    <p>tady budou fotky</p>
+    #tuFotku#
+    <div id = odpovedi>
+        #odpovedA#
+        #odpovedB#
+        #odpov,edC#
+        <p>#odpovedD#</p>
+    </div>
 </div>
-<div id = definitionst class = picDefContainer>
-    <p>tady budou definice</p>
-</div>
+
+<script>
+const queryStringNaTuhleSracku = window.location.search;
+const urlParameters = new URLSearchParams(queryStringNaTuhleSracku);
+const pictureId = urlParameters.get('id') 
+console.log(pictureId)
+
+
+x = [
+[4000, "bobfahren"],  
+[4001, "eishockey"], 
+[4002, "eiskunstlauf"],
+[4003, "fußball"], 
+[4004, "golf"], 
+[4005, "lacrosse"], 
+[4006, "motocross"],
+[4007, "radfahren"], 
+[4008, "rodeln"], 
+[4009, "rugby"], 
+[4010, "skispringen"], 
+[4011, "slalom"], 
+[4012, "snowboarden"],
+[4013, "suerfen"], 
+[4014, "tennis"], 
+[4015, "volleyball"]
+];
+
+function insert_picture(id){
+    document.body.innerHTML = document.body.innerHTML.replace('#tuFotku#', '<div id ='+id+'>seru na to</div>')
+};
+function insert_buttons(){
+    
+}
+insert_picture(pictureId);
+
+//document.body.innerHTML = document.body.innerHTML.replace('#tuFotku#', 'hi')
+
+
+</script>
