@@ -6,6 +6,14 @@ const port = 3000
 app.use(express.static('static'));
 
 app.get('/', (req, res)=>{
+
+	filenames = fs.readdirSync('data')
+	final_data = []
+	filenames.forEach(x => {
+		data = fs.readFileSync(`./data/${x}`).toString()
+		x = data.split("\n")
+		final_data.push(x)
+	});
 	const url = req.url;
 	res.writeHead(200, {'Content-Type': 'text/html'});
 
