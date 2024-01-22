@@ -57,3 +57,6 @@ if(quizid >= 1 && quizid <= 4){
     toggle_div("game")
     display_specific("templateDiv")
 };
+
+
+
