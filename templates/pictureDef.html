@@ -1,46 +1,105 @@
 <div id = pictures class = picDefContainer>
-    #tuFotku#
+    <img id = "image" src="" alt="">
     <div id = odpovedi>
-        #odpovedA#
-        #odpovedB#
-        #odpov,edC#
-        <p>#odpovedD#</p>
+        <button id = 4000button1 class = "4000button" onclick = "show_right_wrong_answer(this.id)">Odpověď A</button>
+        <button id = 4000button2 class = "4000button" onclick = "show_right_wrong_answer(this.id)">Odpověď B</button>
+        <button id = 4000button3 class = "4000button" onclick = "show_right_wrong_answer(this.id)">Odpověď C</button>
+        <button id = 4000button4 class = "4000button" onclick = "show_right_wrong_answer(this.id)">Odpověď D</button>
+        <button id = "NextButton">Next</button>
     </div>
+    <p id = answer></p>
 </div>
 
 <script>
 const queryStringNaTuhleSracku = window.location.search;
 const urlParameters = new URLSearchParams(queryStringNaTuhleSracku);
-const pictureId = urlParameters.get('id') 
-console.log(pictureId)
+const urlImageId = urlParameters.get('id') 
+
+const csvSports = `
+        4000; bobfahren
+        4001; eishockey
+        4002; eiskunstlauf
+        4003; fußball
+        4004; golf
+        4005; lacrosse
+        4006; motocross
+        4007; radfahren
+        4008; rodeln
+        4009; rugby
+        4010; skispringen
+        4011; slalom
+        4012; snowboarden
+        4013; surfen
+        4014; tennis
+        4015; volleyball
+    `;
 
 
-x = [
-[4000, "bobfahren"],  
-[4001, "eishockey"], 
-[4002, "eiskunstlauf"],
-[4003, "fußball"], 
-[4004, "golf"], 
-[4005, "lacrosse"], 
-[4006, "motocross"],
-[4007, "radfahren"], 
-[4008, "rodeln"], 
-[4009, "rugby"], 
-[4010, "skispringen"], 
-[4011, "slalom"], 
-[4012, "snowboarden"],
-[4013, "suerfen"], 
-[4014, "tennis"], 
-[4015, "volleyball"]
-];
+const maximumQuestionId = 4015
+let playerScore = 0
+const buttonList = document.getElementsByClassName("4000button") 
+let imageAnswerList = [];
 
-function insert_picture(id){
-    document.body.innerHTML = document.body.innerHTML.replace('#tuFotku#', '<div id ='+id+'>seru na to</div>')
-};
-function insert_buttons(){
-    
+const pictureRows = csvSports.trim().split('\n');
+for (const image of pictureRows) {
+    const [id, sport] = image.split(';');
+    imageAnswerList.push({id, sport});
 }
-insert_picture(pictureId);
+
+//-------------------------------------------------------------------------------------------------------
+
+function get_random_index(maximumIndex) {
+  return Math.floor(Math.random() * maximumIndex);
+}
+
+
+function insert_image_and_answers(id){
+    for (imageCSV of imageAnswerList){
+        if(imageCSV['id'].trim() == id){
+            document.getElementById("image").setAttribute("alt", imageCSV["sport"])
+            RandomRightAnswer = get_random_index(4)
+            buttonList[RandomRightAnswer].id = urlImageId
+            buttonList[RandomRightAnswer].innerHTML = imageCSV['sport']
+        }
+    }
+
+
+    let temporaryIndexList = []
+    let neededLenght = 0
+    while(neededLenght<4){
+        temporary = get_random_index(16)
+        if(!temporaryIndexList.includes(temporary) && imageAnswerList[temporary]["id"] !== urlImageId){
+            temporaryIndexList.push(temporary)
+            neededLenght+=1
+        }
+    }
+
+
+    for(let i = 0; i<4; i++){
+        if(buttonList[i].id !== urlImageId){
+            buttonList[i].innerHTML = imageAnswerList[temporaryIndexList[i]]["sport"]
+        }
+    }
+}
+
+
+function show_right_wrong_answer(clickedButtonId){
+    userAnswer = document.getElementById(clickedButtonId).id
+    wrongRightText = document.getElementById("answer")
+    if(userAnswer == urlImageId){
+        wrongRightText.innerHTML = "Right Answer"
+    }
+    else{
+        wrongRightText.innerHTML = "Wrong Answer"
+    }
+}
+    
+
+
+
+
+insert_image_and_answers(urlImageId)
+
 
 //document.body.innerHTML = document.body.innerHTML.replace('#tuFotku#', 'hi')
 

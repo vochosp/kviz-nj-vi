@@ -14,6 +14,7 @@ app.get('/', (req, res)=>{
 		x = data.split("\n")
 		final_data.push(x)
 	});
+	console.log(final_data)
 	const url = req.url;
 	res.writeHead(200, {'Content-Type': 'text/html'});
 
