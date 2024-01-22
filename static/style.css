@@ -30,8 +30,9 @@
 .game{
     text-align: center;
     margin: 5px;
-    padding: 300px;
-    border: 3px black solid;
+    padding: 0;
+    border: 3px black dotted;
+    box-sizing: border-box;
 }
 .picDefContainer{
     text-align: center;

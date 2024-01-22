@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fill in the Blank</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,6 +41,16 @@
         #sentence {
             margin-bottom: 20px;
         }
+
+        #resultMessage {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .correct-answer {
+            color: green;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -49,7 +58,8 @@
 <div id="quizContainer">
     <p id="sentence"></p>
     <input type="text" id="userInput" placeholder="Enter your answer">
-    <button type="button" onclick="validateAnswer()">Validate</button>
+    <button id="quizButton" type="button" onclick="handleQuizButton()">Validate</button>
+    <p id="resultMessage"></p>
 </div>
 
 <script>
@@ -67,27 +77,49 @@
         1009;Im Sommer besuchen wir oft ###.;Freibad;
     `;
 
+    let currentQuestionIndex = -1;
+    let questions = [];
+
     // Parse CSV data
     const csvRows = csvData.trim().split('\n');
-    const randomIndex = Math.floor(Math.random() * csvRows.length);
-    const randomRow = csvRows[randomIndex].split(';');
+    for (const row of csvRows) {
+        const [id, sentence, answer] = row.split(';');
+        questions.push({ id, sentence, answer });
+    }
 
-    const sentence = randomRow[1];
-    const correctAnswer = randomRow[2];
-    console.log(randomRow[2])
-    // Display sentence
-    document.getElementById('sentence').innerText = sentence.replace("###", "________");
+    // Display the next question
+    function displayNextQuestion() {
+        currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+        const currentQuestion = questions[currentQuestionIndex];
+        const sentence = currentQuestion.sentence.replace("###", '<span class="placeholder">________</span>');
+        document.getElementById('sentence').innerHTML = sentence;
+        document.getElementById('userInput').value = '';
+        document.getElementById('quizButton').innerText = 'Validate';
+        document.getElementById('resultMessage').innerText = '';
+        document.getElementById('sentence').classList.remove('correct-answer');
+    }
 
-    // Validate user's answer
-    function validateAnswer() {
+    // Handle quiz button click
+    function handleQuizButton() {
         const userInput = document.getElementById('userInput').value.trim();
+        const currentQuestion = questions[currentQuestionIndex];
 
-        if (userInput === correctAnswer) {
-            alert('Correct answer!');
+        if (userInput === currentQuestion.answer) {
+            document.getElementById('resultMessage').innerText = 'Correct answer!';
+            document.getElementById('quizButton').innerText = 'Next Question';
+            document.getElementById('sentence').innerHTML = currentQuestion.sentence.replace("###", `<span class="correct-answer">${userInput}</span>`);
+            document.getElementById('userInput').classList.add('correct-answer');
         } else {
-            alert('Incorrect answer. Try again.');
+            document.getElementById('resultMessage').innerText = 'Incorrect answer. Try again.';
+        }
+
+        if (document.getElementById('quizButton').innerText === 'Next Question') {
+            document.getElementById('quizButton').addEventListener('click', displayNextQuestion, { once: true });
         }
     }
+
+    // Initial display
+    displayNextQuestion();
 </script>
 
 </body>
