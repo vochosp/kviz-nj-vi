@@ -56,7 +56,8 @@
 <body>
 
 <div id="quizContainer">
-    <p id="sentence"></p>
+    <p id="sentence"></p><br>
+    <a id="hints"></a><br><br>
     <input type="text" id="userInput" placeholder="Enter your answer">
     <button id="quizButton" type="button" onclick="handleQuizButton()">Validate</button>
     <p id="resultMessage"></p>
@@ -65,16 +66,7 @@
 <script>
     // Sample CSV data
     const csvData = `
-        1000;Im Sommer spiele ich gerne ### mit meinen Freunden im Park.;Fussball;
-        1001;Wir gehen oft in die See ###, um uns abzukühlen.;schwimmen;
-        1002;Radfahren ist eine beliebte ### während der warmen Monate.;Aktivität;
-        1003;Für das ### brasucht man bequeme Schuhe und einen Rucksack.;Wandern;
-        1004;In den Sommerferien ### ich gerne am Strand.;surfe;
-        1005;Mein Bruder mag ### und spielt es regelmäßig auf dem Tennisplatz.;Tennis;
-        1006;Die ### ist wichtig, um sich vor der Sonne zu schützen.;Sonnenschutzcreme;
-        1007;Ich träume davon, auf einem großen See zu ###.;segeln;
-        1008;Ein ### ist notwendig, wenn man mit dem Fahrrad unterwegs ist.;Fahrradhelm;
-        1009;Im Sommer besuchen wir oft ###.;Freibad;
+        #DATA#
     `;
 
     let currentQuestionIndex = -1;
@@ -97,6 +89,7 @@
         document.getElementById('quizButton').innerText = 'Validate';
         document.getElementById('resultMessage').innerText = '';
         document.getElementById('sentence').classList.remove('correct-answer');
+        showhints(questions);
     }
 
     // Handle quiz button click
@@ -117,9 +110,55 @@
             document.getElementById('quizButton').addEventListener('click', displayNextQuestion, { once: true });
         }
     }
+    
+    function showhints(csvarray){
+        const currentQuestion = questions[currentQuestionIndex];
+        hints = [];
+        allanswers = [];
+        answer = [];
+        for (let i = 0; i < csvarray.length; i++) {
+            allanswers.push(csvarray[2]);
+        }
+
+        answer.push(currentQuestion.answer)
+        hints = chooseRandomItem(csvarray, 3, currentQuestion.answer);
+        //console.log(answer.concat(hints))
+        
+        hintstext = shuffleArray(answer.concat(hints));
+
+        document.getElementById('hints').innerText = "WordPool: "+hintstext;
+        //console.log(hints);
+    };
+
+    function chooseRandomItem(array, count, correct) {
+        randomItem = [];
+        arrayCopy = array.slice();
+        //console.log("arraycopy: "+array.answer)
+        for (let i = 0; i < count; i++){
+            const randomIndex = Math.floor(Math.random() * arrayCopy.length);
+            if(arrayCopy[randomIndex].answer !== correct){
+                randomItem.push(arrayCopy[randomIndex].answer);
+            };
+                
+            //console.log(randomItem)
+            arrayCopy.pop(randomIndex).answer;
+        };
+        return randomItem;
+    };
+
+    function shuffleArray(array){
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const temp = array[i];
+                 array[i] = array[j];
+                array[j] = temp;
+                };
+                return array;
+    };
 
     // Initial display
     displayNextQuestion();
+    
 </script>
 
 </body>

@@ -11,7 +11,7 @@ function toggle_div(divid){
 };
 
 const templateId = urlParams.get('id') //získá tisícový id hry z URL
-console.log(templateId[0])
+//console.log(templateId[0])
 
 /*simply udělá list divů podle classy, kterou jsem jim přidělil (templateDiv)
 a pokud se idčko divu nerovná idčku templatu z url, je jeho style.display nastavený na none - nevypisuje se
@@ -48,9 +48,9 @@ function reply_click(clicked_id){
 const urlParams = new URLSearchParams(queryString);*/
 
 const quizid = urlParams.get('quizid');
-console.log(quizid);
+//console.log(quizid);
 
-if(quizid >= 1 && quizid <= 4){
+if(quizid >= 1 && quizid <= 5){
     toggle_div("quizbuttons");
     toggle_div("homebutton")
     toggle_div("game")
