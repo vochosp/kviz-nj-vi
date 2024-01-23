@@ -7,6 +7,14 @@ app.use(express.static('static'));
 
 app.get('/', (req, res)=>{
 
+	/* format pokazde je to oddeleny znackou pro novou radku \n
+	final_data = {
+		'4000': '4000; bobfahren\r\n4001; eishockey\r\n' 
+	}
+	
+	
+	*/
+
 	file_names = fs.readdirSync('data')
 	final_data = {}
 	file_names.forEach(x => {
