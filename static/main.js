@@ -50,7 +50,7 @@ const urlParams = new URLSearchParams(queryString);*/
 const quizid = urlParams.get('quizid');
 //console.log(quizid);
 
-if(quizid >= 1 && quizid <= 4){
+if(quizid >= 1 && quizid <= 5){
     toggle_div("quizbuttons");
     toggle_div("homebutton")
     toggle_div("game")

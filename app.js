@@ -54,6 +54,14 @@ app.get('/', (req, res)=>{
 			}
 		}
 	}))
+	//Pridani dalsi sablony drag and drop definice
+	site_code = site_code.replace("#5000#", fs.readFileSync("./templates/dragdef.html").toString().replace('#DATA#', () => {
+		for (const key in final_data) {
+			if (key === '5000'){
+				return final_data[key]
+			}
+		}
+	}))
         
 
 
