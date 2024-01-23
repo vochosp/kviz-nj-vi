@@ -56,7 +56,8 @@
 <body>
 
 <div id="quizContainer">
-    <p id="sentence"></p>
+    <p id="sentence"></p><br>
+    <a id="hints"></a>
     <input type="text" id="userInput" placeholder="Enter your answer">
     <button id="quizButton" type="button" onclick="handleQuizButton()">Validate</button>
     <p id="resultMessage"></p>
@@ -117,9 +118,42 @@
             document.getElementById('quizButton').addEventListener('click', displayNextQuestion, { once: true });
         }
     }
+    
+    function showhints(csvarray){
+        const currentQuestion = questions[currentQuestionIndex];
+        hints = [];
+        allanswers = [];
+        for (let i = 0; i < csvarray.length; i++) {
+            allanswers.push(csvarray[2]);
+        } 
+
+        hints.push(currentQuestion.answer);
+        hints.push(chooseRandomItem(csvarray));
+        hints.push(chooseRandomItem(csvarray));
+        hints.push(chooseRandomItem(csvarray));
+        hintstext = ""
+        for(let i = 0; i<4; i++){
+            hintstext = hintstext+hints[i]+" ";
+        }
+        document.getElementById('resultMessage').innerText = "WordPool: "+hintstext;
+        console.log(hints);
+    };
+
+    function chooseRandomItem(array, count) {
+        arrayitems = [];
+        for (let i = 0; i < array.length; i++) {
+            arrayitems.push(array[i])
+        }
+        const arrayCopy = arrayitems.slice();
+        const randomIndex = Math.floor(Math.random() * arrayCopy.length);
+        const randomItem = arrayCopy[randomIndex].answer;
+        arrayCopy.pop(randomIndex);
+        return randomItem;
+    };
 
     // Initial display
     displayNextQuestion();
+    showhints(questions);
 </script>
 
 </body>
