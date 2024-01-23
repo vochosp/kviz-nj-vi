@@ -11,24 +11,22 @@ app.get('/', (req, res)=>{
 	final_data = {
 		'4000': '4000; bobfahren\r\n4001; eishockey\r\n' 
 	}
-	
-	
 	*/
 
 	file_names = fs.readdirSync('data')
 	final_data = {}
 	file_names.forEach(x => {
-		data = fs.readFileSync(`./data/${x}`).toString()
-
-		// tahle ta sracka ti umozni ziskat otazky pro ruzne skupiny pr 1000
-		// prida otazky do skupiny podle idcka, takze jedno ma treva klic 1000
+	data = fs.readFileSync(`./data/${x}`).toString()
+	// tahle ta sracka ti umozni ziskat otazky pro ruzne skupiny pr 1000
+	// prida otazky do skupiny podle idcka, takze jedno ma treva klic 1000
 		if(`${data.slice(0,1)}000` in final_data){
 			final_data[`${data.slice(0,1)}000`] += data
 		}else{
 			final_data[`${data.slice(0,1)}000`] = data
 		}
 	});
-	
+
+
 	const url = req.url;
 	res.writeHead(200, {'Content-Type': 'text/html'});
 
@@ -41,9 +39,21 @@ app.get('/', (req, res)=>{
 	site_code = fs.readFileSync('index.html').toString()
 	// Nacteni sablony quest1
 	// Staci zkopirovat pod a nastavit svuj soubor sablony a text k nahrazeni
-	site_code = site_code.replace("#1000#", fs.readFileSync("./templates/quest1.html").toString())
+	site_code = site_code.replace("#1000#", fs.readFileSync("./templates/quest1.html").toString().replace('#DATA#', () => {
+		for (const key in final_data) {
+			if (key === '1000'){
+				return final_data[key]
+			}
+		}
+	}))
 	//Pridani sablony pictureDef
-	site_code = site_code.replace("#4000#", fs.readFileSync("./templates/pictureDef.html").toString())
+	site_code = site_code.replace("#4000#", fs.readFileSync("./templates/pictureDef.html").toString().replace('#DATA#', () => {
+		for (const key in final_data) {
+			if (key === '4000'){
+				return final_data[key]
+			}
+		}
+	}))
         
 
 
