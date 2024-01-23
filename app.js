@@ -78,15 +78,6 @@ app.get('/quiz', (req, res)=>{
 	res.end();
 })
 
-/*app.get('/pictureDefinition', (req, res)=>{
-	//pictureDefinition html
-	const url = req.url;
-	res.writeHead(200, {'Content-Type': 'text/html'});
-	temp = (fs.readFileSync('index.html').toString()) //načte se index template
-	res.write(temp.replace("#template#", fs.readFileSync('./templates/pictureDef.html').toString())) //v těle indexu se replacne html body z PictureDef.html
-	res.end(); 
-})*/
-
 app.get('/favicon.ico', (req, res)=>{
 	const url = req.url;
 	res.writeHead(200, {'Content-Type': 'text/css'});
