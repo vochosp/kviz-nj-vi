@@ -34,7 +34,6 @@ function reply_click(clicked_id){
     */
     /*alert("ID tlacitka je: "+clicked_id); */
     /* pridano ID otazky */
-    console.log(clicked_id);
     location.href = '../?quizid='+clicked_id+'&id='+clicked_id+'000'; /*Přidal jsem jednoduše, aby se určoval tisícový řád podle id */
     
     
@@ -48,7 +47,6 @@ function reply_click(clicked_id){
 const urlParams = new URLSearchParams(queryString);*/
 
 const quizid = urlParams.get('quizid');
-//console.log(quizid);
 
 if(quizid >= 1 && quizid <= 5){
     toggle_div("quizbuttons");
