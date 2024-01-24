@@ -42,8 +42,10 @@ app.get('/', (req, res)=>{
 	// Nacteni sablony quest1
 	// Staci zkopirovat pod a nastavit svuj soubor sablony a text k nahrazeni a idcka otazek
 	site_code = set_side_code(site_code, 1000, "./templates/quest1.html" )
-	
 
+
+	//Pridani sablony skladba
+	site_code = set_side_code(site_code, 2000, "./templates/skladba_temp.html" )
 	
 	//Pridani sablony pictureDef
 	site_code = set_side_code(site_code, 4000, "./templates/pictureDef.html")
