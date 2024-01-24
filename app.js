@@ -39,31 +39,18 @@ app.get('/', (req, res)=>{
 	site_code = fs.readFileSync('index.html').toString()
 	// Nacteni sablony quest1
 	// Staci zkopirovat pod a nastavit svuj soubor sablony a text k nahrazeni
-	site_code = site_code.replace("#1000#", fs.readFileSync("./templates/quest1.html").toString().replace('#DATA#', () => {
-		for (const key in final_data) {
-			if (key === '1000'){
-				return final_data[key]
-			}
-		}
-	}))
-	//Pridani sablony pictureDef
-	site_code = site_code.replace("#4000#", fs.readFileSync("./templates/pictureDef.html").toString().replace('#DATA#', () => {
-		for (const key in final_data) {
-			if (key === '4000'){
-				return final_data[key]
-			}
-		}
-	}))
-	//Pridani dalsi sablony drag and drop definice
-	site_code = site_code.replace("#5000#", fs.readFileSync("./templates/dragdef.html").toString().replace('#DATA#', () => {
-		for (const key in final_data) {
-			if (key === '5000'){
-				return final_data[key]
-			}
-		}
-	}))
-        
 
+	
+	site_code = set_side_code(site_code, 1000, "./templates/quest1.html" )
+	
+
+	
+	//Pridani sablony pictureDef
+	site_code = set_side_code(site_code, 4000, "./templates/pictureDef.html")
+	
+	//Pridani dalsi sablony drag and drop definice
+	site_code = set_side_code(site_code, 5000, "./templates/dragdef.html")
+        
 
 	// Odeslani cele promene do resultu
 	res.write(site_code); 
@@ -98,7 +85,17 @@ app.listen(port, () => console.log(`server start at port http://127.0.0.1:${port
 
 
 
-
+function set_side_code(site_code, dataset_code, template_html){
+	console.log(`#${dataset_code.toString()}#`)
+	site_code = site_code.replace(`#${dataset_code.toString()}#`, fs.readFileSync(template_html).toString().replace('#DATA#', () => {
+		for (const key in final_data) {
+			if (key === dataset_code.toString()){
+				return final_data[key]
+			}
+		}
+	}))
+	return site_code
+}
 
 
 
