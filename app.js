@@ -37,10 +37,10 @@ app.get('/', (req, res)=>{
 	};
 	// Basic nacteni html
 	site_code = fs.readFileSync('index.html').toString()
+	
+	
 	// Nacteni sablony quest1
-	// Staci zkopirovat pod a nastavit svuj soubor sablony a text k nahrazeni
-
-
+	// Staci zkopirovat pod a nastavit svuj soubor sablony a text k nahrazeni a idcka otazek
 	site_code = set_side_code(site_code, 1000, "./templates/quest1.html" )
 	
 
@@ -85,6 +85,9 @@ app.listen(port, () => console.log(`server start at port http://127.0.0.1:${port
 
 
 
+
+
+// funkce pro nacteni sablony quest1
 function set_side_code(site_code, dataset_code, template_html){
 	site_code = site_code.replace(`#${dataset_code.toString()}#`, fs.readFileSync(template_html).toString().replace('#DATA#', () => {
 		for (const key in final_data) {
