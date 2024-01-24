@@ -86,14 +86,14 @@
       if (wordId === definitionId) {
         dropTarget.appendChild(draggedElement.cloneNode(true));
         draggedElement.parentNode.removeChild(draggedElement);
-        daddefShowMessage("");
+        daddefShowMessage("Correct! You are officialy a genius!", "green");
       } else {
-        daddefShowMessage("Wrong! Try again.");
+        daddefShowMessage("Wrong! Try again.", "red");
       }
     }
   }
 
-  function daddefShowMessage(message) {
+  function daddefShowMessage(message, backgroundColor) {
     const messageElement = document.querySelector(".daddef-message");
 
     if (!messageElement) {
@@ -106,6 +106,7 @@
 
     const updatedMessageElement = document.querySelector(".daddef-message");
     updatedMessageElement.innerText = message;
+    updatedMessageElement.style.backgroundColor = backgroundColor
     updatedMessageElement.style.display = "block";
 
     // Hide the message after a short delay
