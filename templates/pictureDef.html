@@ -14,7 +14,6 @@
 const queryStringNaTuhleSracku = window.location.search;
 const urlParameters = new URLSearchParams(queryStringNaTuhleSracku);
 const urlImageId = urlParameters.get('id') //idčko z URL 
-const urlImageIdLenght = urlImageId.length
 intUrlId = parseInt(urlImageId)
 
 const csvSports = `
@@ -22,41 +21,39 @@ const csvSports = `
     `;
 
 const maximumQuestionId = 4015 //id poslední otázky
-const buttonList = document.getElementsByClassName("4000button")  //list HTML buttonů
-let imageList = []; //list pro uložení csv pro volání po indexech
+const buttonList = document.getElementsByClassName("4000button")
+let imageList = []; //objekt pro uložení csv pro volání po indexech
 
-//a tu jest funkce, co to předělá na indexovaný objekty v obřím listu - a ano, ten trim funguje jen napůl
+//parse na objekt
 const pictureRows = csvSports.trim().split('\n');
 for (const imageRow of pictureRows) {
     const [id, definition] = imageRow.split(';');
     imageList.push({id, definition});
 }
-let imageListLenght= Object.keys(imageList).length //tenhle list je irl object
+let imageListLenght= Object.keys(imageList).length
 
-//-------------------------------------------------------------------------------------------------------
 
 //funkce, která vyhodí random číselnej index, který je menší než maximum
-function get_random_pictureList_index(maximumIndex) {
-  return Math.floor(Math.random() * maximumIndex);
+function get_random_pictureList_index(maximumNumber) {
+  return Math.floor(Math.random() * maximumNumber);
 }
 
-//funkce pro vložení správné odpovědi podle ID v URL - vysvětlím v průběhu
+
+
+//funkce pro vložení správné odpovědi podle ID v URL
 function insert_image_and_answers(id){
     for (image of imageList){
-        if(image['id'].trim() == id){ //porovnám jestli se idčko v url rovná idčku fotky a definice v objektu (je to to samý)
+        if(image['id'].trim() == id){ 
             document.getElementById("image").setAttribute("alt", image["definition"])
-            //tady pak přidat src pro <img>
-            RightAnswer = get_random_pictureList_index(4)//nastavím random tlačítku id z URL (správná odpověď) a definici
+            RightAnswer = get_random_pictureList_index(4)
+            //nastavím random tlačítku id z URL (správná odpověď) a definici
             buttonList[RightAnswer].id = urlImageId
             buttonList[RightAnswer].innerHTML = image['definition'] 
         }
-        else{
-            console.log("Něco se posralo")
-        }
     }
 
-    //v týhle části se jen dodělávají špatný tlačítka
-    let imageDefinitionIndexList = [] //tu bude list na to, abych si uložil 3 random indexy na kradení si random definic z CSV
+    //nastavení zbytku tlačítek
+    let imageDefinitionIndexList = []
     let lenght = 0
     while(lenght<4){
         temporaryIndex = get_random_pictureList_index(imageListLenght)
@@ -68,15 +65,15 @@ function insert_image_and_answers(id){
             lenght+=1
         }
     }
-    console.log(imageDefinitionIndexList)
-
-    //podle listu nastavím definice pro zbytek tlačítek, který nemaj URL id
     for(let i = 0; i<4; i++){
         if(buttonList[i].id != urlImageId){
             buttonList[i].innerHTML = imageList[imageDefinitionIndexList[i]]["definition"]
         }
     }
 }
+
+
+
 
 //získám si kliklý tlačítko a pokud se jeho idčko rovná id v URL, vypíče se "Right Answer"
 function show_right_wrong_answer(clickedButtonId){
