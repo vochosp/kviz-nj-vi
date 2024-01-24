@@ -40,7 +40,7 @@ app.get('/', (req, res)=>{
 	// Nacteni sablony quest1
 	// Staci zkopirovat pod a nastavit svuj soubor sablony a text k nahrazeni
 
-	
+
 	site_code = set_side_code(site_code, 1000, "./templates/quest1.html" )
 	
 
@@ -86,7 +86,6 @@ app.listen(port, () => console.log(`server start at port http://127.0.0.1:${port
 
 
 function set_side_code(site_code, dataset_code, template_html){
-	console.log(`#${dataset_code.toString()}#`)
 	site_code = site_code.replace(`#${dataset_code.toString()}#`, fs.readFileSync(template_html).toString().replace('#DATA#', () => {
 		for (const key in final_data) {
 			if (key === dataset_code.toString()){
