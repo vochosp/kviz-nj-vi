@@ -1,5 +1,6 @@
 <div id = pictures class = picDefContainer>
     <img id = "image" src="" alt="">
+    
     <div id = odpovedi>
         <button id = 4000button1 class = "4000button" onclick = "show_right_wrong_answer(this.id)">Odpověď A</button>
         <button id = 4000button2 class = "4000button" onclick = "show_right_wrong_answer(this.id)">Odpověď B</button>
@@ -39,23 +40,26 @@ function get_random_pictureList_index(maximumNumber) {
 }
 
 
-
-//funkce pro vložení správné odpovědi podle ID v URL
-function insert_image_and_answers(id){
+function get_sport_name(id){
     for (image of imageList){
         if(image['id'].trim() == id){ 
-            document.getElementById("image").setAttribute("alt", image["definition"])
-            RightAnswer = get_random_pictureList_index(4)
-            //nastavím random tlačítku id z URL (správná odpověď) a definici
-            document.getElementById("image").src = `${image['definition']}.jpg`
-            console.log(image['definition'])
-            //tady pak přidat src pro <img>
-            RightAnswer = get_random_pictureList_index(4)//nastavím random tlačítku id z URL (správná odpověď) a definici
-            buttonList[RightAnswer].id = urlImageId
-            buttonList[RightAnswer].innerHTML = image['definition'] 
+            return image["definition"] 
         }
     }
+    
+}
 
+function set_image(sport_name){
+    document.getElementById("image").setAttribute("alt", sport_name)
+    RightAnswer = get_random_pictureList_index(4)
+    document.getElementById("image").src = `${sport_name}.jpg`
+}
+
+function set_buttons(correct_answer){
+    //nastavím random tlačítku id z URL (správná odpověď) a definici
+    RightAnswer = get_random_pictureList_index(4)//nastavím random tlačítku id z URL (správná odpověď) a definici
+    buttonList[RightAnswer].id = urlImageId
+    buttonList[RightAnswer].innerHTML = correct_answer
     //nastavení zbytku tlačítek
     let imageDefinitionIndexList = []
     let lenght = 0
@@ -75,8 +79,6 @@ function insert_image_and_answers(id){
         }
     }
 }
-
-
 
 
 //získám si kliklý tlačítko a pokud se jeho idčko rovná id v URL, vypíče se "Right Answer"
@@ -104,18 +106,20 @@ function next_question(){
 }
     
 function show_score(){
-    if(parseInt(urlImageId)> maximumQuestionId){
-        document.getElementById("image").style.display = "none"
-        document.getElementById("odpovedi").style.display = "none"
-        document.getElementById("answer").innerHTML = "Your score is"
-    }
+    document.getElementById("image").style.display = "none"
+    document.getElementById("odpovedi").style.display = "none"
+    document.getElementById("answer").innerHTML = "Your score is"
+    
 }
 
-insert_image_and_answers(urlImageId)
-show_score()
-
-
-
+if(parseInt(urlImageId)> maximumQuestionId){
+    show_score()
+}
+else{
+    const correct_answer_sport_name = get_sport_name(urlImageId)
+    set_buttons(correct_answer_sport_name)
+    set_image(correct_answer_sport_name)
+}
 
 
 
