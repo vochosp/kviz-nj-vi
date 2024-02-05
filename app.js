@@ -46,6 +46,8 @@ app.get('/', (req, res)=>{
 
 	//Pridani sablony skladba
 	site_code = set_side_code(site_code, 2000, "./templates/skladba_temp.html" )
+
+	site_code = set_side_code(site_code, 3000, "./templates/presmicka_temp.html" )
 	
 	//Pridani sablony pictureDef
 	site_code = set_side_code(site_code, 4000, "./templates/pictureDef.html")

@@ -38,7 +38,6 @@ function reply_click(clicked_id){
     
     
 };
-
 /*
     recyklace getu, bude třeba časem optimalizovat
     vyuziti moji funkce togglediv na prepinani viditelnosti tlacitek

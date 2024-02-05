@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        #quizContainer {
+            max-width: 500px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #sentence {
+            margin-bottom: 20px;
+        }
+
+        #resultMessage {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .correct-answer {
+            color: green;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div id="quizContainer">
+
+    
+</div>
+
+<script>
+    const csvDatas = `
+        #DATA#
+    `;
+
+    let currentQuestionIndexes = -1;
+    let questionse = [];
+
+    // Parse CSV data
+    const csvRowse = csvDatas.trim().split('\n');
+    for (const row of csvRowse) {
+        const [id, sentence, answer] = row.split(';');
+        questionse.push({ id, sentence, answer });
+    }
+    let arr = []
+    
+    for(x in questionse){
+    arr.push(questionse[x]["sentence"].slice(1,-1)); 
+    }  
+    split = []
+    arr.forEach(i=> {
+       split.push( console.log(i.split(',')))
+    });
+
+
+    
+
+
+</script>
+    
+    
+</script>
+</body>
+</html>
+
