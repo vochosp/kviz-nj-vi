@@ -84,6 +84,10 @@ app.get('/favicon.ico', (req, res)=>{
     res.end()
 })
 
+app.get('/*.jpg', (req, res)=>{
+	const url = decodeURIComponent(req.url);
+	res.sendFile(url, { root: "./img" })
+})
 
 app.listen(port, () => console.log(`server start at port http://127.0.0.1:${port}/`));
 
