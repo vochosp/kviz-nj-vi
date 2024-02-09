@@ -127,7 +127,11 @@
       wordElement.innerText = item.word;
 
       wordContainer.appendChild(wordElement);
+    });
 
+    daddefVocabularyData.sort(() => Math.random() - 0.5)
+
+    daddefVocabularyData.forEach(function (item) {
       const definitionElement = document.createElement("div");
       definitionElement.className = "daddef-definition daddef-droppable";
       definitionElement.id = item.id;
