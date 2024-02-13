@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Drag and Drop Vocabulary Quiz</title>
+  <title>Ergänze das Wort in den Satz</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -86,9 +86,9 @@
       if (wordId === definitionId) {
         dropTarget.appendChild(draggedElement.cloneNode(true));
         draggedElement.parentNode.removeChild(draggedElement);
-        daddefShowMessage("Correct! You are officialy a genius!", "green");
+        daddefShowMessage("Korrekt. Weiter so!", "green");
       } else {
-        daddefShowMessage("Wrong! Try again.", "red");
+        daddefShowMessage("Falsch! Versuchen Sie es erneut.", "red");
       }
     }
   }
