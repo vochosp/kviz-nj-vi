@@ -4,7 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        #letters_div{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #divs{
+            margin: 20px;
+            width: 50px;
+            background-color: beige;
+        }
         body {
+
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 20px;
@@ -47,16 +58,40 @@
             font-weight: bold;
         }
 
+        .input_divs{
+            width: 50px;
+            height: 50px;
+
+        }
+
         .correct-answer {
             color: green;
             text-decoration: underline;
         }
+
+        .drop_zone{
+            margin: 100px;
+            background-color: #ccc;
+            width: 80%;
+            height: auto;
+        }
+
+        .letters_div{
+            display: flex;
+            flex-direction: column;
+        }
     </style>
 </head>
 <body>
-
-<div id="quizContainer">
-
+<div id="drop_zone" class = "drop_zone">
+    <form id="formular" action="answer" method="post">
+        <div id="input_field"></div>
+        <button id="quizButton2" type="button" onclick="on_button_click()">Validate</button>
+    </form>
+</div>
+<div  class="letters_div">
+    <div><h3>Písmena na výběr</h3></div>
+    <div id="letters_div"></div>
     
 </div>
 
@@ -69,6 +104,7 @@
     let questionse = [];
 
     // Parse CSV data
+    // Predelana uplne retardovane, protoze muj maly monkeybrain nedokazal vymyslet lepsi zpusob
     const csvRowse = csvDatas.trim().split('\n');
     for (const row of csvRowse) {
         const [id, sentence, answer] = row.split(';');
@@ -81,14 +117,100 @@
     }  
     split = []
     arr.forEach(i=> {
-       split.push( console.log(i.split(',')))
+       split.push( i.split(','))
     });
 
+    let current_question_index = 0;
 
-    
+
+    function create_html_elements(letters){
+
+        let x = 0
+        letter_form = document.getElementById
+        ('letters_div')
+
+        formular = document.getElementById('input_field')
+
+        letters.forEach(let => {
+
+            // vytvori inputy pro zadan odpovedi
+            let input_div = document.createElement('input')
+            input_div.id= 'input_divs'+x 
+            input_div.className = 'input_divs'
 
 
-</script>
+            formular.append(input_div)
+            input_div.setAttribute('type', 'text')
+
+
+            // vytvori vyber pismen
+            let div = document.createElement('div')
+            div.id = 'divs'
+            let i = document.createElement('p')
+            i.innerHTML = let.replace(/['"]+/g, '');
+
+            div.append(i)
+            
+            letter_form.append(div)
+            x++
+
+        });
+
+
+    }
+
+    // není důležitý co to dělá, funguje to a já už na to nemám nervy
+    function on_button_click(){
+        let arr = []
+        let i = 0;
+        
+        while (document.getElementById('input_divs'+i)!= undefined) {
+            arr.push(document.getElementById('input_divs'+i).value)
+            i++
+        }
+
+        let answer = ''
+
+        arr.forEach(elm=> {
+            answer += elm
+        });
+
+        if (answer.toLowerCase() ==questionse[current_question_index]['answer'].slice(2,-1).toLowerCase()){
+            current_question_index++
+            if (document.getElementById('result_message')!= undefined){
+                document.getElementById('result_message').remove();
+            }
+            document.getElementById('input_field').innerText = ''
+            document.getElementById('letters_div').innerText = ''
+
+            
+            main_div = document.getElementById('drop_zone')
+
+
+            
+
+            result_message = document.createElement('h3')
+            result_message.innerText = 'spravne'
+            result_message.id='result_message'
+            main_div.append(result_message)
+
+
+            
+           create_html_elements(split[current_question_index])
+
+        }else{
+            if (document.getElementById('result_message')!= undefined){
+                document.getElementById('result_message').remove();
+            }
+            main_div = document.getElementById('drop_zone')
+            result_message = document.createElement('h3')
+            result_message.innerText = 'spatne'
+            result_message.id='result_message'
+            main_div.append(result_message)
+        }
+    }
+
+    create_html_elements(split[current_question_index])
     
     
 </script>
