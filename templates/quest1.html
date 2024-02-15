@@ -58,8 +58,8 @@
 <div id="quizContainer">
     <p id="sentence"></p><br>
     <a id="hints"></a><br><br>
-    <input type="text" id="userInput" placeholder="Enter your answer">
-    <button id="quizButton" type="button" onclick="handleQuizButton()">Validate</button>
+    <input type="text" id="userInput" placeholder="Geben Sie die Antwort ein">
+    <button id="quizButton" type="button" onclick="handleQuizButton()">Antwort</button>
     <p id="resultMessage"></p>
 </div>
 
@@ -87,7 +87,7 @@
         document.getElementById('sentence').innerHTML = sentence;
         document.getElementById('userInput').value = '';
         document.getElementById('userInput').classList.remove('correct-answer');
-        document.getElementById('quizButton').innerText = 'Validate';
+        document.getElementById('quizButton').innerText = 'Antwort';
         document.getElementById('resultMessage').innerText = '';
         document.getElementById('sentence').classList.remove('correct-answer');
         showhints(questions);
@@ -99,15 +99,15 @@
         const currentQuestion = questions[currentQuestionIndex];
 
         if (userInput.toLowerCase() === currentQuestion.answer.toLowerCase()) {
-            document.getElementById('resultMessage').innerText = 'Correct answer!';
-            document.getElementById('quizButton').innerText = 'Next Question';
+            document.getElementById('resultMessage').innerText = 'Richtige Antwort!';
+            document.getElementById('quizButton').innerText = 'Nächste Frage';
             document.getElementById('sentence').innerHTML = currentQuestion.sentence.replace("###", `<span class="correct-answer">${userInput}</span>`);
             document.getElementById('userInput').classList.add('correct-answer');
         } else {
-            document.getElementById('resultMessage').innerText = 'Incorrect answer. Try again.';
+            document.getElementById('resultMessage').innerText = 'Falsche Antwort. Versuche es noch einmal.';
         }
 
-        if (document.getElementById('quizButton').innerText === 'Next Question') {
+        if (document.getElementById('quizButton').innerText === 'Nächste Frage') {
             document.getElementById('quizButton').addEventListener('click', displayNextQuestion, { once: true });
         }
     }

@@ -86,14 +86,14 @@ function show_right_wrong_answer(clickedButtonId){
     userAnswer = document.getElementById(clickedButtonId).id
     wrongRightText = document.getElementById("answer")
     if(userAnswer == urlImageId){
-        wrongRightText.innerHTML = "Right Answer"
+        wrongRightText.innerHTML = "Richtige Antwort"
         document.getElementById("NextButton").style.display = "block"
         for(button of buttonList){
             button.disabled = "true"
         }
     }
     else{
-        wrongRightText.innerHTML = "You answered wrong. The right answer is:"+ imageList[parseInt(urlImageId[3])]["definition"]
+        wrongRightText.innerHTML = "Du hast falsch geantwortet. Die richtige Antwort ist:"+ imageList[parseInt(urlImageId[3])]["definition"]
         document.getElementById("NextButton").style.display = "block"
         for(button of buttonList){
             button.disabled = "true"
@@ -108,7 +108,7 @@ function next_question(){
 function show_score(){
     document.getElementById("image").style.display = "none"
     document.getElementById("odpovedi").style.display = "none"
-    document.getElementById("answer").innerHTML = "Your score is"
+    document.getElementById("answer").innerHTML = "Score"
     
 }
 
