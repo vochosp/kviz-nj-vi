@@ -42,3 +42,18 @@
 #odpovedi{
     width: 50%;
 }
+.wordBox{
+    width: 150px;
+    height: 100px;
+    color: grey;
+    border: 2px solid black;
+}
+.wordBox{
+    width: 100px;
+    height: 25px;
+    background-color: white;
+    border: 2px solid black;
+}
+#skladbaContainer{
+    display: flex;
+}

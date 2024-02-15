@@ -33,14 +33,28 @@ app.get('/', (req, res)=>{
 	//Script na GET. data ulozena v promenne prozatim v plain textu bez parsu
 	if (url.split("?").length > 1){
 		getdata = req.url.split("?");
-		console.log(getdata);
+		console.log(getdata)
 	};
-	// Basic nacteni html
+
+	// Basic nacteni html a načtení buttonů pro kvízové sady
 	site_code = fs.readFileSync('index.html').toString()
-	
-	
+	site_code = site_code.replace("#BUTTONS#", fs.readFileSync("./templates/mainQuizTab.html").toString())
+
+	//load_quiz_buttons("quizid=10&id=10000", "quizTab1.html")
+	//load_quiz_buttons("quizid=11&id=11000", "quizTab2.html")
+	//load_quiz_buttons("quizid=12&id=12000", "quizTab3.html")
+
+
+
+	//load_quiz_buttons("quizid=10&id=10000", "quizTab1.html")
+
+	//if(getdata[1] == "quizid=10&id=10000"){
+	//	site_code = site_code.replace("#BUTTONS#", fs.readFileSync("./templates/quizTab1.html").toString())
+	//}
+
 	// Nacteni sablony quest1
 	// Staci zkopirovat pod a nastavit svuj soubor sablony a text k nahrazeni a idcka otazek
+
 	site_code = set_side_code(site_code, 1000, "./templates/quest1.html" )
 
 
@@ -54,12 +68,37 @@ app.get('/', (req, res)=>{
 	
 	//Pridani dalsi sablony drag and drop definice
 	site_code = set_side_code(site_code, 5000, "./templates/dragdef.html")
+
+
         
 
 	// Odeslani cele promene do resultu
 	res.write(site_code); 
 	res.end(); 
 })
+
+app.get('/tab1', (req, res)=>{
+	const url = req.url
+	res.writeHead(200, {'Content-Type': 'text/html'})
+	res.write(load_quiz_buttons("quizTab1.html")); 
+	res.end(); 
+})
+
+app.get('/tab2', (req, res)=>{
+	const url = req.url
+	res.writeHead(200, {'Content-Type': 'text/html'})
+	res.write(load_quiz_buttons("quizTab2.html")); 
+	res.end(); 
+})
+
+app.get('/tab3', (req, res)=>{
+	const url = req.url
+	res.writeHead(200, {'Content-Type': 'text/html'})
+	res.write(load_quiz_buttons("quizTab3.html")); 
+	res.end(); 
+})
+
+
 
 app.get('/about', (req, res)=>{
 	const url = req.url;
@@ -105,7 +144,11 @@ function set_side_code(site_code, dataset_code, template_html){
 		}
 	}))
 	return site_code
+
 }
-
-
-
+//funkce pro vypsání správných buttonů
+function load_quiz_buttons(buttonFile){
+		site_code = fs.readFileSync('index.html').toString()
+		site_code = site_code.replace("#BUTTONS#", fs.readFileSync("./templates/"+buttonFile).toString())
+		return site_code
+}
