@@ -1,7 +1,9 @@
 <div>
     <div id="wordContainer" class="container"></div>
     <div id="dropFieldContainer" class="container"></div>
-    <br>
+    <div class="container">
+        <button id = "nextButton" style = "display: none" onclick = "nextQuestion()">Next</button>
+    </div>
 </div>
 <style>
     body {
@@ -38,20 +40,19 @@
     }
 </style>
 <script>
-    console.log("Tady se ta sračka bude vypisovat")
-    
+
     const data = `
         "#DATA#"
     `;
 
     const ParseCSVData = data => {
-        const lines = data.trim().split('\n');
-        const res = lines.map(line => {
-            const [id, words] = line.trim().split(';');
-            return { id, words };
-        });
-        res.map(element =>{
-            element.words = element.words.split(" ").map(words =>{
+        const lines = data.trim().split('\n')
+        const res = {}
+        lines.map(line => {
+            let [id, words] = line.trim().replace('"', "").split(';')
+            if (words === undefined) return
+            
+            res[id] = words.split(" ").map(words =>{
                 return words.trim()
             })
         })
@@ -61,7 +62,11 @@
     const sentences = ParseCSVData(data);
     console.log(sentences)
 
-    const currentSentenceId = 0
+    const currentSentenceId = parseInt(new URLSearchParams(window.location.search).get('id'))
+    
+    function nextQuestion(){
+        location.href = '../?quizid=2&id=' + String(currentSentenceId+1)
+    }
 
     function allowDrop(ev) {
         ev.preventDefault();
@@ -77,11 +82,14 @@
         const targetId = event.target.id;
         console.log(draggedId)
         if( draggedId === targetId ){
-            ev.target.appendChild(document.getElementById(draggedId));
+            const wordElement = document.getElementById(draggedId)
+            wordElement.draggable = false
+            ev.target.appendChild(wordElement);
         }
         const wordContainer = document.getElementById("wordContainer");
-        console.log(dropFieldContainer.childNodes.length)
-        if (dropFieldContainer.childNodes.length <= 0){
+        console.log(wordContainer.childNodes.length)
+        if (wordContainer.childNodes.length <= 0){
+            document.getElementById("nextButton").style.display = "block";
             console.log("you won!!!!!!!!!")
         }
     }
@@ -93,7 +101,7 @@
         let wordId = 0
         const wordElements = []
         const dropFieldElements = []
-        const words = sentences[currentSentenceId].words
+        const words = sentences[currentSentenceId]
         words.forEach(function (word) {
             const wordElement = document.createElement("div");
             wordElement.className = "word";
