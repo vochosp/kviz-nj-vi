@@ -1,1 +1,128 @@
-<h1>Půjde to od Filipa</h1>
+<div>
+    <div id="wordContainer" class="container"></div>
+    <div id="dropFieldContainer" class="container"></div>
+    <br>
+</div>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin-top: 50px;
+    }
+
+    .word, .dropField {
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin: 10px;
+        cursor: pointer;
+    }
+
+    .dropField {
+        background-color: grey;
+    }
+
+    .droppable {
+        border: 2px dashed #333;
+        padding: 20px;
+        min-height: 100px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        position: relative;
+    }
+</style>
+<script>
+    console.log("Tady se ta sračka bude vypisovat")
+    
+    const data = `
+        "#DATA#"
+    `;
+
+    const ParseCSVData = data => {
+        const lines = data.trim().split('\n');
+        const res = lines.map(line => {
+            const [id, words] = line.trim().split(';');
+            return { id, words };
+        });
+        res.map(element =>{
+            element.words = element.words.split(" ").map(words =>{
+                return words.trim()
+            })
+        })
+        return res
+    };
+
+    const sentences = ParseCSVData(data);
+    console.log(sentences)
+
+    const currentSentenceId = 0
+
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var draggedId = ev.dataTransfer.getData("text");
+        const targetId = event.target.id;
+        console.log(draggedId)
+        if( draggedId === targetId ){
+            ev.target.appendChild(document.getElementById(draggedId));
+        }
+        const wordContainer = document.getElementById("wordContainer");
+        console.log(dropFieldContainer.childNodes.length)
+        if (dropFieldContainer.childNodes.length <= 0){
+            console.log("you won!!!!!!!!!")
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const wordContainer = document.getElementById("wordContainer");
+        const dropFieldContainer = document.getElementById("dropFieldContainer");
+
+        let wordId = 0
+        const wordElements = []
+        const dropFieldElements = []
+        const words = sentences[currentSentenceId].words
+        words.forEach(function (word) {
+            const wordElement = document.createElement("div");
+            wordElement.className = "word";
+            wordElement.draggable = true;
+            wordElement.id = currentSentenceId + "-" + wordId
+            wordElement.innerText = word
+            wordElements.push(wordElement)
+
+            const dropField = document.createElement("div");
+            dropField.className = "word";
+            dropField.id = currentSentenceId + "-" + wordId
+            dropField.addEventListener("dragover", allowDrop);
+            dropField.addEventListener("drop", drop);
+            dropFieldContainer.appendChild(dropField)
+
+            wordId += 1
+        });
+
+        const shuffledWordElements = [...wordElements].sort(() => Math.random() - 0.5)
+        shuffledWordElements.forEach(function (wordElement) {
+            wordContainer.appendChild(wordElement)
+        });
+
+        shuffledWordElements.forEach(function (word) {
+            word.addEventListener('dragstart', function (event) {
+                console.log(event.target.id)
+                event.dataTransfer.setData('text', event.target.id);
+            });
+        });
+    });
+
+</script>
