@@ -61,10 +61,13 @@
 
   const daddefParseCSVData = data => {
     const lines = data.trim().split('\n');
-    return lines.map(line => {
-      const [id, word, definition] = line.trim().split(';');
-      return { id, word, definition };
+    const res = []
+    lines.forEach(line => {
+      if (line.split(';').length !== 3) return
+      const [id, word, definition] = line.trim().split(';')
+      res.push({ id, word, definition })
     });
+    return res
   };
 
   const daddefVocabularyData = daddefParseCSVData(daddefVocabularyCSV);
