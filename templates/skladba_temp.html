@@ -1,4 +1,5 @@
 <div>
+    <div id="score" class="container"></div>
     <div id="wordContainer" class="container"></div>
     <div id="dropFieldContainer" class="container"></div>
     <div class="container">
@@ -16,6 +17,10 @@
         flex-wrap: wrap;
         justify-content: space-around;
         margin-top: 50px;
+    }
+
+    #dropFieldContainer {
+        height: 100px;
     }
 
     .word, .dropField {
@@ -38,6 +43,7 @@
         align-items: center;
         position: relative;
     }
+
 </style>
 <script>
 
@@ -60,7 +66,8 @@
     };
 
     const sentences = ParseCSVData(data);
-    console.log(sentences)
+
+    let score = 0
 
     const currentSentenceId = parseInt(new URLSearchParams(window.location.search).get('id'))
     
@@ -80,17 +87,25 @@
         ev.preventDefault();
         var draggedId = ev.dataTransfer.getData("text");
         const targetId = event.target.id;
-        console.log(draggedId)
-        if( draggedId === targetId ){
-            const wordElement = document.getElementById(draggedId)
-            wordElement.draggable = false
-            ev.target.appendChild(wordElement);
+        const [draggedSentenceId, draggedWordIndex] = draggedId.split("-")
+        const [targetSentenceId, targetWordIndex] = targetId.split("-")
+        if( sentences[draggedSentenceId][draggedWordIndex] !== sentences[targetSentenceId][targetWordIndex] ) {
+            score--
+            updateScore()
+            showMessage("incorrect!", "red")
+            return
         }
-        const wordContainer = document.getElementById("wordContainer");
-        console.log(wordContainer.childNodes.length)
+
+        const wordElement = document.getElementById(draggedId)
+        wordElement.draggable = false
+        ev.target.appendChild(wordElement)
+        const wordContainer = document.getElementById("wordContainer")
+        score++
+        updateScore()
+        showMessage("correct!", "green")
+
         if (wordContainer.childNodes.length <= 0){
             document.getElementById("nextButton").style.display = "block";
-            console.log("you won!!!!!!!!!")
         }
     }
 
@@ -131,6 +146,35 @@
                 event.dataTransfer.setData('text', event.target.id);
             });
         });
+        updateScore()
     });
+
+    
+  function showMessage(message, backgroundColor) {
+    const messageElement = document.querySelector(".daddef-message");
+
+    if (!messageElement) {
+      // Create message element if it doesn't exist
+      const body = document.body;
+      const newMessageElement = document.createElement("div");
+      newMessageElement.className = "daddef-message";
+      body.appendChild(newMessageElement);
+    }
+
+    const updatedMessageElement = document.querySelector(".daddef-message");
+    updatedMessageElement.innerText = message;
+    updatedMessageElement.style.backgroundColor = backgroundColor
+    updatedMessageElement.style.display = "block";
+
+    // Hide the message after a short delay
+    setTimeout(() => {
+      updatedMessageElement.style.display = "none";
+    }, 2000);
+  }
+
+  function updateScore(){
+      const scoreElement = document.getElementById("score")
+      scoreElement.innerText = "score: " + score
+  }
 
 </script>
