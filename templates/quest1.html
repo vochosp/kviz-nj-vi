@@ -82,6 +82,13 @@
         questions.push({ id, sentence, answer });
     }
 
+
+    // Show score
+    function showscore(){
+        document.getElementById('score').innerText = 'SCORE: '+score.toString();
+    };
+
+
     // Display the next question
     function displayNextQuestion() {
         currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
@@ -94,7 +101,7 @@
         document.getElementById('resultMessage').innerText = '';
         document.getElementById('sentence').classList.remove('correct-answer');
         showhints(questions);
-        document.getElementById('score').innerText = 'SCORE: '+score.toString();
+        showscore();
     }
 
     // Handle quiz button click
@@ -108,8 +115,11 @@
             document.getElementById('sentence').innerHTML = currentQuestion.sentence.replace("###", `<span class="correct-answer">${userInput}</span>`);
             document.getElementById('userInput').classList.add('correct-answer');
             score = score + 0.5;
+            
         } else {
             document.getElementById('resultMessage').innerText = 'Falsche Antwort. Versuche es noch einmal.';
+            score = score - 1;
+            showscore();
         }
 
         if (document.getElementById('quizButton').innerText === 'Nächste Frage') {
