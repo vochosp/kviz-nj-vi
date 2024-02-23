@@ -33,7 +33,6 @@ app.get('/', (req, res)=>{
 	//Script na GET. data ulozena v promenne prozatim v plain textu bez parsu
 	if (url.split("?").length > 1){
 		getdata = req.url.split("?");
-		console.log(getdata)
 	};
 
 	// Basic nacteni html a načtení buttonů pro kvízové sady
