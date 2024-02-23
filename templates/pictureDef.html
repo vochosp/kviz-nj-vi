@@ -1,6 +1,10 @@
 <div id = pictures class = picDefContainer>
     <img id = "image" src="" alt="">
     
+    
+    <div id = score>
+        <p id = scoreText></p>
+    </div>
     <div id = odpovedi>
         <button id = 4000button1 class = "4000button" onclick = "show_right_wrong_answer(this.id)">Odpověď A</button>
         <button id = 4000button2 class = "4000button" onclick = "show_right_wrong_answer(this.id)">Odpověď B</button>
@@ -14,8 +18,15 @@
 <script>
 const queryStringNaTuhleSracku = window.location.search;
 const urlParameters = new URLSearchParams(queryStringNaTuhleSracku);
-const urlImageId = urlParameters.get('id') //idčko z URL 
-intUrlId = parseInt(urlImageId)
+const urlImageId = urlParameters.get('id') //idčko z URL
+if(urlImageId == "4000" && queryStringNaTuhleSracku.includes("score") == false){
+    location.href = '../?quizid=4&id=4000&score=0'
+}
+//if(urlImageId = "4000"){
+//    
+//} 
+intUrlId = parseInt(urlImageId) //intnutý idčko
+score = parseInt(urlParameters.get("score"))
 
 const csvSports = `
         #DATA#
@@ -23,6 +34,10 @@ const csvSports = `
 
 const maximumQuestionId = 4015 //id poslední otázky
 const buttonList = document.getElementsByClassName("4000button")
+
+//výpis score
+document.getElementById("scoreText").innerHTML = "Skóre: "+String(score)+"/16"
+
 let imageList = []; //objekt pro uložení csv pro volání po indexech
 
 //parse na objekt
@@ -31,7 +46,10 @@ for (const imageRow of pictureRows) {
     const [id, definition] = imageRow.split(';');
     imageList.push({id, definition});
 }
-let imageListLenght= Object.keys(imageList).length
+let imageListLenght= Object.keys(imageList).length //délka objektu s názvy obrázků a definicemi
+
+
+
 
 
 //funkce, která vyhodí random číselnej index, který je menší než maximum
@@ -40,6 +58,8 @@ function get_random_pictureList_index(maximumNumber) {
 }
 
 
+
+//vybrání sportu podle idčka v URL
 function get_sport_name(id){
     for (image of imageList){
         if(image['id'].trim() == id){ 
@@ -49,17 +69,22 @@ function get_sport_name(id){
     
 }
 
+
+//nastavení obrázku do html objektu ppodle vybraného sportu
 function set_image(sport_name){
     document.getElementById("image").setAttribute("alt", sport_name)
-    RightAnswer = get_random_pictureList_index(4)
+    RightAnswerId = get_random_pictureList_index(4)
     document.getElementById("image").src = `${sport_name}.jpg`
 }
 
+
 function set_buttons(correct_answer){
-    //nastavím random tlačítku id z URL (správná odpověď) a definici
-    RightAnswer = get_random_pictureList_index(4)//nastavím random tlačítku id z URL (správná odpověď) a definici
-    buttonList[RightAnswer].id = urlImageId
-    buttonList[RightAnswer].innerHTML = correct_answer
+    //nastavení správné odpovědi
+    RightAnswerId = get_random_pictureList_index(4)//nastavím random tlačítku id z URL (správná odpověď) a definici
+    buttonList[RightAnswerId].id = urlImageId
+    buttonList[RightAnswerId].innerHTML = correct_answer 
+
+    
     //nastavení zbytku tlačítek
     let imageDefinitionIndexList = []
     let lenght = 0
@@ -81,11 +106,14 @@ function set_buttons(correct_answer){
 }
 
 
+
+
 //získám si kliklý tlačítko a pokud se jeho idčko rovná id v URL, vypíče se "Right Answer"
 function show_right_wrong_answer(clickedButtonId){
     userAnswer = document.getElementById(clickedButtonId).id
     wrongRightText = document.getElementById("answer")
     if(userAnswer == urlImageId){
+        score+=1
         wrongRightText.innerHTML = "Richtige Antwort"
         document.getElementById("NextButton").style.display = "block"
         for(button of buttonList){
@@ -101,16 +129,22 @@ function show_right_wrong_answer(clickedButtonId){
     }
 }
 
+
+
 function next_question(){
-    location.href = '../?quizid=4&id=' + String(intUrlId+1)
+    location.href = '../?quizid=4&id='+ String(intUrlId+1) +'&score='+String(score)
 }
     
+
+
 function show_score(){
     document.getElementById("image").style.display = "none"
     document.getElementById("odpovedi").style.display = "none"
-    document.getElementById("answer").innerHTML = "Score"
+    //document.getElementById("answer").innerHTML = "Score"
     
 }
+
+
 
 if(parseInt(urlImageId)> maximumQuestionId){
     show_score()
@@ -120,6 +154,7 @@ else{
     set_buttons(correct_answer_sport_name)
     set_image(correct_answer_sport_name)
 }
+
 
 
 

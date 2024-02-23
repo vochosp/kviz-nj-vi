@@ -69,6 +69,9 @@ app.get('/', (req, res)=>{
 	//Pridani dalsi sablony drag and drop definice
 	site_code = set_side_code(site_code, 5000, "./templates/dragdef.html")
 
+	//Pridani sablony pro sommer a winter sports
+	site_code = set_side_code(site_code, 6000, "./templates/sports.html")
+
 
         
 
