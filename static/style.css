@@ -30,9 +30,21 @@ body{
     text-align: end;
 }
 
-.button{
+.button, .button4000{
     margin: 5px;
+    padding: 10px 20px;
+    background-color: white;
+    color: hsla(256, 90%, 46%, 1);
+    font-family: Verdana, sans-serif;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
+.button:hover, .button4000:hover{
+    background-color: #4CAF50;
+}
+
 
 .game{
     text-align: center;

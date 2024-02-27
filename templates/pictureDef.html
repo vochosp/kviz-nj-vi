@@ -6,11 +6,11 @@
         <p id = scoreText></p>
     </div>
     <div id = odpovedi>
-        <button id = 4000button1 class = "4000button" onclick = "show_right_wrong_answer(this.id)">Odpověď A</button>
-        <button id = 4000button2 class = "4000button" onclick = "show_right_wrong_answer(this.id)">Odpověď B</button>
-        <button id = 4000button3 class = "4000button" onclick = "show_right_wrong_answer(this.id)">Odpověď C</button>
-        <button id = 4000button4 class = "4000button" onclick = "show_right_wrong_answer(this.id)">Odpověď D</button>
-        <button id = "NextButton" style = "display: none" onclick = "next_question()">Next</button>
+        <button id = 4000button1 class = "button4000" onclick = "show_right_wrong_answer(this.id)">Odpověď A</button>
+        <button id = 4000button2 class = "button4000" onclick = "show_right_wrong_answer(this.id)">Odpověď B</button>
+        <button id = 4000button3 class = "button4000" onclick = "show_right_wrong_answer(this.id)">Odpověď C</button>
+        <button id = 4000button4 class = "button4000" onclick = "show_right_wrong_answer(this.id)">Odpověď D</button>
+        <button id = "NextButton" class = "button" style = "display: none" onclick = "next_question()">Nächste</button>
     </div>
     <p id = answer></p>
 </div>
@@ -33,7 +33,7 @@ const csvSports = `
     `;
 
 const maximumQuestionId = 4015 //id poslední otázky
-const buttonList = document.getElementsByClassName("4000button")
+const buttonList = document.getElementsByClassName("button4000")
 
 //výpis score
 document.getElementById("scoreText").innerHTML = "Score: "+String(score)+"/16"
