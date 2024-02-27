@@ -60,7 +60,7 @@
     <a id="hints"></a><br><br>
     <p id="sentence"></p><br>
     
-    <input type="text" id="userInput" placeholder="Geben Sie die Antwort ein">
+    <input type="text" id="userInput" placeholder="Gebe die Antwort ein">
     <button id="quizButton" type="button" onclick="handleQuizButton()">Antwort</button>
     <p id="resultMessage"></p>
 </div>
@@ -142,7 +142,7 @@
        
         hintstext = shuffleArray(answer.concat(hints));
 
-        document.getElementById('hints').innerText = "WordPool: "+hintstext;
+        document.getElementById('hints').innerText = hintstext;
         //console.log(hints);
     };
 
