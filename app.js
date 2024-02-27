@@ -69,7 +69,7 @@ app.get('/', (req, res)=>{
 	site_code = set_side_code(site_code, 5000, "./templates/dragdef.html")
 
 	//Pridani sablony pro sommer a winter sports
-	site_code = set_side_code(site_code, 6000, "./templates/sports.html")
+	site_code = set_side_code(site_code, 6000, "./templates/stupnovani_s_radou.html")
 
 
         

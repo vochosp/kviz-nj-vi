@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        #quizContainer {
+            max-width: 500px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #sentence {
+            margin-bottom: 20px;
+        }
+
+        #resultMessage {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .correct-answer {
+            color: green;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<p id="score_stupnovani" class="score_stupnovani"></p>
+<div id="quizContainer_stupnovani">
+    <p id="sentence_stupnovani"></p><br>
+    
+    <input type="text" id="userInput_stupnovani" placeholder="Geben Sie die Antwort ein">
+    <button id="quizButton_stupnovani" type="button_stupnovani" onclick="handleQuizButton_stupnovani()">Antwort</button>
+    <p id="resultMessage_stupnovani"></p>
+</div>
+
+<script>
+    // Sample CSV data
+    const csvData_stupnovani = `
+        #DATA#
+    `;
+
+    let quest1score_stupnovani = 0;
+
+    let currentQuestionIndex_stupnovani = -1;
+    let questions_stupnovani = [];
+
+    // Parse CSV data
+    const csvRows_stupnovani = csvData_stupnovani.trim().split('\n');
+    for (const row_stupnovani of csvRows_stupnovani) {
+        const [id_stupnovani, sentence_stupnovani, answer_stupnovani] = row_stupnovani.split(';');
+        questions_stupnovani.push({ id_stupnovani, sentence_stupnovani, answer_stupnovani });
+    }
+
+
+    // Show score
+    function showscore_stupnovani(){
+        document.getElementById('score_stupnovani').innerText = 'SCORE: '+quest1score_stupnovani.toString();
+    };
+
+
+    // Display the next question
+    function displayNextQuestion_stupnovani() {
+        currentQuestionIndex_stupnovani = (currentQuestionIndex_stupnovani + 1) % questions_stupnovani.length;
+        const currentQuestion_stupnovani = questions_stupnovani[currentQuestionIndex_stupnovani];
+        const sentence_stupnovani = currentQuestion_stupnovani.sentence_stupnovani.replace("###", '<span class="placeholder">________</span>');
+        document.getElementById('sentence_stupnovani').innerHTML = sentence_stupnovani;
+        document.getElementById('userInput_stupnovani').value = '';
+        document.getElementById('userInput_stupnovani').classList.remove('correct-answer');
+        document.getElementById('quizButton_stupnovani').innerText = 'Antwort';
+        document.getElementById('resultMessage_stupnovani').innerText = '';
+        document.getElementById('sentence_stupnovani').classList.remove('correct-answer');
+        showscore_stupnovani();
+    }
+
+    // Handle quiz button click
+    function handleQuizButton_stupnovani() {
+        const userInput_stupnovani = document.getElementById('userInput_stupnovani').value.trim();
+        const currentQuestion_stupnovani = questions_stupnovani[currentQuestionIndex_stupnovani];
+
+        if (userInput_stupnovani.toLowerCase() === currentQuestion_stupnovani.answer_stupnovani.toLowerCase()) {
+            document.getElementById('resultMessage_stupnovani').innerText = 'Richtige Antwort!';
+            document.getElementById('quizButton_stupnovani').innerText = 'Nächste Frage';
+            document.getElementById('sentence_stupnovani').innerHTML = currentQuestion_stupnovani.sentence_stupnovani.replace("###", `<span class="correct-answer_stupnovani">${userInput_stupnovani}</span>`);
+            document.getElementById('userInput_stupnovani').classList.add('correct-answer');
+            quest1score_stupnovani = quest1score_stupnovani + .5;
+            
+        } else {
+            document.getElementById('resultMessage_stupnovani').innerText = 'Falsche Antwort. Versuche es noch einmal.';
+            quest1score_stupnovani = quest1score_stupnovani - 1;
+            showscore_stupnovani();
+        }
+
+        if (document.getElementById('quizButton_stupnovani').innerText === 'Nächste Frage') {
+            document.getElementById('quizButton_stupnovani').addEventListener('click', displayNextQuestion_stupnovani, { once: true });
+        }
+    }
+    
+    
+
+    function chooseRandomItem_stupnovani(array_stupnovani, count_stupnovani, correct_stupnovani) {
+        randomItem_stupnovani = [];
+        arrayCopy_stupnovani = array_stupnovani.slice();
+        console.log(arrayCopy_stupnovani)
+        for (let i = 0; i < count_stupnovani; i++){
+            const randomIndex_stupnovani = Math.floor(Math.random() * arrayCopy_stupnovani.length);
+            if(arrayCopy_stupnovani[randomIndex_stupnovani].answer_stupnovani !== correct){
+                randomItem_stupnovani.push(arrayCopy_stupnovani[randomIndex_stupnovani].answer_stupnovani);
+            };
+                
+            arrayCopy_stupnovani.pop(randomIndex_stupnovani).answer_stupnovani;
+        };
+        return randomItem_stupnovani;
+    };
+
+    function shuffleArray_stupnovani(array_stupnovani){
+            for (let i_stupnovani = array_stupnovani.length - 1; i_stupnovani > 0; i_stupnovani--) {
+                const j_stupnovani = Math.floor(Math.random() * (i_stupnovani + 1));
+                const temp_stupnovani = array[i_stupnovani];
+                 array_stupnovani[i_stupnovani] = array[j_stupnovani];
+                array_stupnovani[j_stupnovani] = temp_stupnovani;
+                };
+                return array_stupnovani;
+    };
+
+    // Initial display
+    displayNextQuestion_stupnovani();
+    
+</script>
+
+</body>
+</html>
