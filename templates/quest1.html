@@ -57,8 +57,9 @@
 <body>
 <p id="score" class="score"></p>
 <div id="quizContainer">
-    <p id="sentence"></p><br>
     <a id="hints"></a><br><br>
+    <p id="sentence"></p><br>
+    
     <input type="text" id="userInput" placeholder="Geben Sie die Antwort ein">
     <button id="quizButton" type="button" onclick="handleQuizButton()">Antwort</button>
     <p id="resultMessage"></p>
@@ -70,7 +71,7 @@
         #DATA#
     `;
 
-    let score = 0;
+    let quest1score = 0;
 
     let currentQuestionIndex = -1;
     let questions = [];
@@ -85,7 +86,7 @@
 
     // Show score
     function showscore(){
-        document.getElementById('score').innerText = 'SCORE: '+score.toString();
+        document.getElementById('score').innerText = 'SCORE: '+quest1score.toString();
     };
 
 
@@ -114,11 +115,11 @@
             document.getElementById('quizButton').innerText = 'Nächste Frage';
             document.getElementById('sentence').innerHTML = currentQuestion.sentence.replace("###", `<span class="correct-answer">${userInput}</span>`);
             document.getElementById('userInput').classList.add('correct-answer');
-            score = score + 0.5;
+            quest1score = quest1score + 0.5;
             
         } else {
             document.getElementById('resultMessage').innerText = 'Falsche Antwort. Versuche es noch einmal.';
-            score = score - 1;
+            quest1score = quest1score - 1;
             showscore();
         }
 
@@ -142,7 +143,7 @@
         
         hintstext = shuffleArray(answer.concat(hints));
 
-        document.getElementById('hints').innerText = "WordPool: "+hintstext;
+        document.getElementById('hints').innerText = hintstext;
         //console.log(hints);
     };
 
