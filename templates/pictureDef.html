@@ -74,7 +74,7 @@ function get_sport_name(id){
 function set_image(sport_name){
     document.getElementById("image").setAttribute("alt", sport_name)
     RightAnswerId = get_random_pictureList_index(4)
-    document.getElementById("image").src = `${sport_name}.jpg`
+    document.getElementById("image").src = `${sport_name.toLowerCase()}.jpg`
 }
 
 
