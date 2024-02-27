@@ -33,7 +33,6 @@ app.get('/', (req, res)=>{
 	//Script na GET. data ulozena v promenne prozatim v plain textu bez parsu
 	if (url.split("?").length > 1){
 		getdata = req.url.split("?");
-		console.log(getdata)
 	};
 
 	// Basic nacteni html a načtení buttonů pro kvízové sady
@@ -68,6 +67,9 @@ app.get('/', (req, res)=>{
 	
 	//Pridani dalsi sablony drag and drop definice
 	site_code = set_side_code(site_code, 5000, "./templates/dragdef.html")
+
+	//Pridani sablony pro sommer a winter sports
+	site_code = set_side_code(site_code, 6000, "./templates/sports.html")
 
 
         

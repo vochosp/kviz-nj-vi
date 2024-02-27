@@ -139,25 +139,23 @@
 
         answer.push(currentQuestion.answer)
         hints = chooseRandomItem(csvarray, 3, currentQuestion.answer);
-        //console.log(answer.concat(hints))
-        
+       
         hintstext = shuffleArray(answer.concat(hints));
 
-        document.getElementById('hints').innerText = hintstext;
+        document.getElementById('hints').innerText = "WordPool: "+hintstext;
         //console.log(hints);
     };
 
     function chooseRandomItem(array, count, correct) {
         randomItem = [];
         arrayCopy = array.slice();
-        //console.log("arraycopy: "+array.answer)
+        console.log(arrayCopy)
         for (let i = 0; i < count; i++){
             const randomIndex = Math.floor(Math.random() * arrayCopy.length);
             if(arrayCopy[randomIndex].answer !== correct){
                 randomItem.push(arrayCopy[randomIndex].answer);
             };
                 
-            //console.log(randomItem)
             arrayCopy.pop(randomIndex).answer;
         };
         return randomItem;

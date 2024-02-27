@@ -55,16 +55,9 @@ if (quizid >=1 || tabIdList.some(tabIndex => locationHref.includes(tabIndex))) {
 if(tabIdList.some(tabIndex => locationHref.includes(tabIndex))){
     previousPage = "../"
 }
-else if ((quizid) > 0 && quizid < 3) {
-    previousPage = "../tab1";
-} 
-else if (quizid > 2 && quizid < 5) {
-    previousPage = "../tab2";
-} 
-else if (quizid > 4 && quizid < 7) {
-    previousPage = "../tab3";
+else if ((quizid) > 0) {
+    document.getElementById("homebutton").style.display = "none"
 }
-
 
 function go_to_previous_page(){
     location.href = previousPage
