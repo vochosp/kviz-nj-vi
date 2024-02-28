@@ -121,11 +121,16 @@ function show_right_wrong_answer(clickedButtonId){
         }
     }
     else{
-        wrongRightText.innerHTML = "Du hast falsch geantwortet. Die richtige Antwort ist:"+ imageList[parseInt(urlImageId[3])]["definition"]
+        if(urlImageId[2] == "0"){
+            wrongRightText.innerHTML = "Du hast falsch geantwortet. Die richtige Antwort ist:"+ imageList[parseInt(urlImageId[3])]["definition"]
+            }
+        else{
+            wrongRightText.innerHTML = "Du hast falsch geantwortet. Die richtige Antwort ist:"+ imageList[parseInt(urlImageId[2])+(urlImageId[3])]["definition"]
+            }
+        }
         document.getElementById("NextButton").style.display = "block"
         for(button of buttonList){
             button.disabled = "true"
-        }
     }
 }
 
@@ -154,7 +159,6 @@ else{
     set_buttons(correct_answer_sport_name)
     set_image(correct_answer_sport_name)
 }
-
 
 
 
