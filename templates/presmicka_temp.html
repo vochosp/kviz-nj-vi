@@ -71,6 +71,7 @@
 </head>
 <body>
 <div id="drop_zone" class = "drop_zone">
+    <h2>Schreib die richtige Buchstabe ein</h2>
     <form id="formular" action="answer" method="post">
         <div id="input_field"></div>
         <button id="quizButton2" class = "button" type="button" onclick="on_button_click()">Kontrollieren</button>
@@ -179,7 +180,7 @@
             
 
             result_message = document.createElement('h3')
-            result_message.innerText = 'spravne'
+            result_message.innerText = 'Richtig'
             result_message.id='result_message'
             main_div.append(result_message)
 
@@ -193,7 +194,7 @@
             }
             main_div = document.getElementById('drop_zone')
             result_message = document.createElement('h3')
-            result_message.innerText = 'spatne'
+            result_message.innerText = 'Falsch'
             result_message.id='result_message'
             main_div.append(result_message)
         }
