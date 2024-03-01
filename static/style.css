@@ -45,6 +45,30 @@ body{
     background-color: #4CAF50;
 }
 
+.score{
+    font-family: Verdana, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.score_main{
+    width: auto;
+    height: 19rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+.score_num{
+    font-family: Verdana, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    font-size: 20rem;
+    
+
+}
 
 .game{
     text-align: center;
