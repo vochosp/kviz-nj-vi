@@ -6,6 +6,7 @@ const port = 3000
 app.use(express.static('static'));
 
 app.get('/', (req, res)=>{
+	
 
 	/* format pokazde je to oddeleny znackou pro novou radku \n
 	final_data = {
@@ -39,17 +40,6 @@ app.get('/', (req, res)=>{
 	site_code = fs.readFileSync('index.html').toString()
 	site_code = site_code.replace("#BUTTONS#", fs.readFileSync("./templates/mainQuizTab.html").toString())
 
-	//load_quiz_buttons("quizid=10&id=10000", "quizTab1.html")
-	//load_quiz_buttons("quizid=11&id=11000", "quizTab2.html")
-	//load_quiz_buttons("quizid=12&id=12000", "quizTab3.html")
-
-
-
-	//load_quiz_buttons("quizid=10&id=10000", "quizTab1.html")
-
-	//if(getdata[1] == "quizid=10&id=10000"){
-	//	site_code = site_code.replace("#BUTTONS#", fs.readFileSync("./templates/quizTab1.html").toString())
-	//}
 
 	// Nacteni sablony quest1
 	// Staci zkopirovat pod a nastavit svuj soubor sablony a text k nahrazeni a idcka otazek
@@ -100,6 +90,13 @@ app.get('/tab3', (req, res)=>{
 	res.end(); 
 })
 
+app.get('/score', (req, res) =>{
+	const url = req.url
+	res.writeHead(200, {'Content-Type': 'text/html'})
+	res.write(fs.readFileSync('./templates/score.html').toString());
+	res.end()
+})
+
 
 
 app.get('/about', (req, res)=>{
@@ -130,6 +127,11 @@ app.get('/*.jpg', (req, res)=>{
 	res.sendFile(url, { root: "./img" })
 })
 
+app.get('/*.mp3', (req, res)=>{
+	const url = decodeURIComponent(req.url);
+	res.sendFile(url, { root: "./sounds" })
+})
+
 app.listen(port, () => console.log(`server start at port http://127.0.0.1:${port}/`));
 
 
@@ -154,3 +156,7 @@ function load_quiz_buttons(buttonFile){
 		site_code = site_code.replace("#BUTTONS#", fs.readFileSync("./templates/"+buttonFile).toString())
 		return site_code
 }
+
+
+
+

@@ -63,6 +63,10 @@ function go_to_previous_page(){
     location.href = previousPage
 }
 
+function go_to_main_menu(){
+    location.href = '/'
+}
+
 
 
 if(quizid >= 1 && quizid <= 10){
