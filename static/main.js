@@ -51,7 +51,6 @@ const tabIdList = ["tab1", "tab2", "tab3"];
 const locationHref = location.href;
 if (quizid >=1 || tabIdList.some(tabIndex => locationHref.includes(tabIndex))) {
     toggle_div("homebutton")
-    document.getElementById("music").style.display = "none";
     
 }
 
