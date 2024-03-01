@@ -4,6 +4,8 @@ const urlId = urlParams.get('id') //získá tisícový id hry z URL
 const urlQuizId = urlParams.get('quizid')
 previousPage = ""
 
+
+
 function toggle_div(divid){
     if(urlId < 10000){
         var x = document.getElementById(divid);
@@ -49,11 +51,14 @@ const tabIdList = ["tab1", "tab2", "tab3"];
 const locationHref = location.href;
 if (quizid >=1 || tabIdList.some(tabIndex => locationHref.includes(tabIndex))) {
     toggle_div("homebutton")
+    document.getElementById("music").style.display = "none";
+    
 }
 
 
 if(tabIdList.some(tabIndex => locationHref.includes(tabIndex))){
     previousPage = "../"
+
 }
 else if ((quizid) > 0) {
     document.getElementById("homebutton").style.display = "none"
@@ -69,5 +74,10 @@ if(quizid >= 1 && quizid <= 10){
     toggle_div("quizbuttons")
     toggle_div("game")
     display_specific("templateDiv")
+    document.getElementById("music").style.display = "none";
 };
 console.log(previousPage)
+
+window.onload = function() {
+    document.getElementById("music").play();
+}

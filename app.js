@@ -72,7 +72,7 @@ app.get('/', (req, res)=>{
 	site_code = set_side_code(site_code, 6000, "./templates/stupnovani_s_radou.html")
 
 
-        
+    
 
 	// Odeslani cele promene do resultu
 	res.write(site_code); 
@@ -128,6 +128,11 @@ app.get('/favicon.ico', (req, res)=>{
 app.get('/*.jpg', (req, res)=>{
 	const url = decodeURIComponent(req.url);
 	res.sendFile(url, { root: "./img" })
+})
+
+app.get('/*.mp3', (req, res)=>{
+	const url = decodeURIComponent(req.url);
+	res.sendFile(url, { root: "./music" })
 })
 
 app.listen(port, () => console.log(`server start at port http://127.0.0.1:${port}/`));
