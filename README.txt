@@ -5,3 +5,5 @@ Czech quiz for learning purpose of german language
 
 this project started with Vite and Vue, but we realised that we don't know how to use it, so we settled on plain jss with express.
 
+
+This code is fucking terrible, personally I would burn it, I would scrap it all. So I hope noone ever sees it 
