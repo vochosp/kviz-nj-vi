@@ -1,0 +1,135 @@
+<style>
+div[id="9000"].templateDiv {
+    display: flex;    
+    flex-direction: column;
+}
+</style>
+
+<div id = "audio">
+    <audio controls>
+        <source src="../poslech.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+</div>
+
+
+<div id = "poslechContainer">
+
+</div>
+<div id = poslechAntwortButton>
+    <button id = "poslechOdpovedi" onclick = "showRightAnswers()">Antwort</button>
+</div>
+
+<script>
+const queryStringPoslech = window.location.search;
+const Params = new URLSearchParams(queryStringPoslech);
+const urlPoslechId = Params.get('id') //idčko z URL
+
+
+const csvPoslech = `
+    #DATA#
+`;
+
+let poslechList = [];
+let answerList = [];
+
+const poslechRows = csvPoslech.trim().split('\n');
+for (const poslechRow of poslechRows) {
+    const [id, line, answer] = poslechRow.split(';');
+    poslechList.push({id, line, answer});
+}
+
+for(answer of poslechList){
+    if(answer["answer"]!="none")
+    answerList.push(answer["answer"])
+}
+//console.log((answerList))
+
+boxIndexes = []
+for (line of poslechList) {
+    // Set up boxAnswers and optionBox
+
+    boxIndexes.push(line["id"]+"a")
+    let boxAnswers = ["answer", "answer", "answer"];
+    let optionBox = '<select id=#id#><option valeu = ""><option><option>Option1</option><option>Option2</option><option>Option3</option></select>';
+    optionBox = optionBox.replace("#id#", line["id"] + "a");
+
+    // Check if answer is not "none"
+    if (line["answer"] != "none") {
+        // Set right answer
+        let rightAnswerIndex = getRandomIndex(3);
+        boxAnswers[rightAnswerIndex] = line["answer"];
+
+        // Fill other answers randomly
+        for (let i = 0; i < boxAnswers.length; i++) {
+            let answer = boxAnswers[i];
+            if (answer === "answer") {
+                let falseIndex = getRandomIndex(answerList.length - 1);
+                if (answerList[falseIndex] !== line["answer"]) {
+                    boxAnswers[i] = answerList[falseIndex];
+                } else if (falseIndex - 1 >= 0) {
+                    boxAnswers[i] = answerList[falseIndex - 1];
+                } else if (falseIndex + 1 < answerList.length) {
+                    boxAnswers[i] = answerList[falseIndex + 1];
+                }
+            }
+        }
+
+        // Replace options in optionBox
+        for (let cycleIndex = 0; cycleIndex < 3; cycleIndex++) {
+            optionBox = optionBox.replace("Option" + (cycleIndex + 1), boxAnswers[cycleIndex]);
+        }
+    }
+
+    // Create temporaryDiv and append it
+    let temporaryDiv = document.createElement("div");
+    temporaryDiv.innerHTML = line["line"];
+    temporaryDiv.id = line["id"];
+    if (temporaryDiv.innerHTML.includes("###")) {
+        temporaryDiv.innerHTML = temporaryDiv.innerHTML.replace('###', optionBox);
+    }
+    temporaryDiv.className = "poslechLine";
+    document.getElementById("poslechContainer").appendChild(temporaryDiv);
+}
+console.log(boxIndexes)
+console.log(poslechList)
+
+
+
+
+function getRandomIndex(range){
+    return Math.floor(Math.random() * range);
+}
+
+function showRightAnswers(){
+    for(let i = 0; i < boxIndexes.length; i++){
+        temporaryInputBox = document.getElementById(boxIndexes[i]);
+        const answerIndexLine = boxIndexes[i].replace("a", "");
+        const answer = poslechList.find(item => item.id === answerIndexLine)?.answer; //tahle lina je od chatu, protože už kurva ztrácím nervy
+        
+
+        if(temporaryInputBox && !temporaryInputBox.value){
+            const underlineElement = document.createElement("u");
+            underlineElement.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            underlineElement.style.textDecorationColor = "red";
+            temporaryInputBox.parentNode.replaceChild(underlineElement, temporaryInputBox);
+        }
+        else if(temporaryInputBox && temporaryInputBox.value === answer){
+            const underlineElement = document.createElement("u");
+            underlineElement.innerHTML = temporaryInputBox.value;
+            underlineElement.style.textDecorationColor = "green";
+            underlineElement.setAttribute("style", "color: green;")
+            temporaryInputBox.parentNode.replaceChild(underlineElement, temporaryInputBox);
+        }
+        else if (temporaryInputBox && temporaryInputBox.value !== answer) {
+            const underlineElement = document.createElement("u");
+            underlineElement.innerHTML = temporaryInputBox.value;
+            underlineElement.style.textDecorationColor = "red";
+            underlineElement.setAttribute("style", "color: red;");
+            temporaryInputBox.parentNode.replaceChild(underlineElement, temporaryInputBox);
+        }
+    }
+}
+
+
+</script>

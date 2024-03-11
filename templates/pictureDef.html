@@ -16,6 +16,7 @@
 </div>
 
 <script>
+
 const queryStringNaTuhleSracku = window.location.search;
 const urlParameters = new URLSearchParams(queryStringNaTuhleSracku);
 const urlImageId = urlParameters.get('id') //idčko z URL
@@ -148,7 +149,6 @@ function show_score(){
     //document.getElementById("answer").innerHTML = "Score"
     
 }
-
 
 
 if(parseInt(urlImageId)> maximumQuestionId){

@@ -21,9 +21,9 @@ app.get('/', (req, res)=>{
 	// tahle ta sracka ti umozni ziskat otazky pro ruzne skupiny pr 1000
 	// prida otazky do skupiny podle idcka, takze jedno ma treva klic 1000
 		if(`${data.slice(0,1)}000` in final_data){
-			final_data[`${data.slice(0,1)}000`] += data
+			final_data[`${data.slice(0,2)}00`] += data
 		}else{
-			final_data[`${data.slice(0,1)}000`] = data
+			final_data[`${data.slice(0,2)}00`] = data
 		}
 	});
 
@@ -61,6 +61,8 @@ app.get('/', (req, res)=>{
 	//Pridani sablony pro sommer a winter sports
 	site_code = set_side_code(site_code, 6000, "./templates/stupnovani_s_radou.html")
 
+	site_code = set_side_code(site_code, 9000, "./templates/poslech.html")
+
 
     
 
@@ -87,6 +89,13 @@ app.get('/tab3', (req, res)=>{
 	const url = req.url
 	res.writeHead(200, {'Content-Type': 'text/html'})
 	res.write(load_quiz_buttons("quizTab3.html")); 
+	res.end(); 
+})
+
+app.get('/tab4', (req, res)=>{
+	const url = req.url
+	res.writeHead(200, {'Content-Type': 'text/html'})
+	res.write(load_quiz_buttons("quizTab4.html")); 
 	res.end(); 
 })
 

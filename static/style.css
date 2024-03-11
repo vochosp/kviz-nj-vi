@@ -101,3 +101,18 @@ body{
 #skladbaContainer{
     display: flex;
 }
+#mainPoslechContainer{
+    display: flex;
+    flex-direction: column;
+}
+#poslechContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    display: inline-block;
+}
+.poslechLine{
+    text-align: left;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 180%;
+}
