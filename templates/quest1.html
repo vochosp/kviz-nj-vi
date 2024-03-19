@@ -76,7 +76,7 @@
         document.getElementById('score').innerText = 'SCORE: '+quest1score.toString();
         document.getElementById('turn').innerText = 'Runde: '+quest1turn.toString()+" /10";
         if(quest1turn > 10){
-            //funkce na post do /score
+            go_to_score(quest1score)
         }
 
     };
