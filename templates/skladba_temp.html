@@ -142,7 +142,6 @@
 
         shuffledWordElements.forEach(function (word) {
             word.addEventListener('dragstart', function (event) {
-                console.log(event.target.id)
                 event.dataTransfer.setData('text', event.target.id);
             });
         });

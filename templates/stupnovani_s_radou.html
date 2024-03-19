@@ -131,7 +131,6 @@
     function chooseRandomItem_stupnovani(array_stupnovani, count_stupnovani, correct_stupnovani) {
         randomItem_stupnovani = [];
         arrayCopy_stupnovani = array_stupnovani.slice();
-        console.log(arrayCopy_stupnovani)
         for (let i = 0; i < count_stupnovani; i++){
             const randomIndex_stupnovani = Math.floor(Math.random() * arrayCopy_stupnovani.length);
             if(arrayCopy_stupnovani[randomIndex_stupnovani].answer_stupnovani !== correct){

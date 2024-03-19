@@ -70,6 +70,9 @@ app.get('/', (req, res)=>{
 	res.write(site_code); 
 	res.end(); 
 })
+app.post('/', (req, res) => {
+	res.redirect(`/post?score=${req.score}`, )
+})
 
 app.get('/tab1', (req, res)=>{
 	const url = req.url
@@ -101,8 +104,11 @@ app.get('/tab4', (req, res)=>{
 
 app.get('/score', (req, res) =>{
 	const url = req.url
+	params = req.url.split('=')
+	console.log(params[1])
+	
 	res.writeHead(200, {'Content-Type': 'text/html'})
-	res.write(fs.readFileSync('./templates/score.html').toString());
+	res.write(fs.readFileSync('./templates/score.html').toString().replace('#SCORE#', params[1]));
 	res.end()
 })
 

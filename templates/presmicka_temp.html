@@ -84,6 +84,7 @@
 </div>
 
 <script>
+    console.log('sup')
     const csvDatas = `
         #DATA#
     `;
@@ -93,6 +94,7 @@
 
     // Parse CSV data
     // Predelana uplne retardovane, protoze muj maly monkeybrain nedokazal vymyslet lepsi zpusob
+    
     const csvRowse = csvDatas.trim().split('\n');
     for (const row of csvRowse) {
         const [id, sentence, answer] = row.split(';');
@@ -101,12 +103,14 @@
     let arr = []
     
     for(x in questionse){
-    arr.push(questionse[x]["sentence"].slice(1,-1)); 
+        
+        arr.push(questionse[x]["sentence"].slice(1,-1)); 
     }  
     split = []
+    console.log(arr)
+    
     arr.forEach(i=> {
 
-       //split.push( console.log(i.split(',')))
        split.push( i.split(','))
     });
 
