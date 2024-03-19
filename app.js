@@ -64,6 +64,7 @@ app.get('/', (req, res)=>{
 	site_code = set_side_code(site_code, 9000, "./templates/poslech.html")
 
 
+
     
 
 	// Odeslani cele promene do resultu
