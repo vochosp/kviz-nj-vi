@@ -27,7 +27,6 @@ if(urlImageId == "4000" && queryStringNaTuhleSracku.includes("score") == false){
 //    
 //} 
 intUrlId = parseInt(urlImageId) //intnutý idčko
-score = parseInt(urlParameters.get("score"))
 
 const csvSports = `
         #DATA#
@@ -143,14 +142,14 @@ function next_question(){
     
 
 
-function show_score(score){
-    location.href = `../score?score=${score}`
+function show_score(scorepic){
+    location.href = `../score?score=${scorepic}`
     
 }
 
 
-if(parseInt(urlImageId)> maximumQuestionId){
-    show_score(score)
+if(parseInt(urlImageId)>maximumQuestionId && urlImageId[0] == 4){
+    show_score(parseInt(urlParameters.get("score")))
 }
 else{
     const correct_answer_sport_name = get_sport_name(urlImageId)
