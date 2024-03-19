@@ -81,8 +81,6 @@
         const [id_stupnovani, sentence_stupnovani, answer_stupnovani] = row_stupnovani.split(';');
         questions_stupnovani.push({ id_stupnovani, sentence_stupnovani, answer_stupnovani });
     }
-
-
     // Show score
     function showscore_stupnovani(){
         document.getElementById('score_stupnovani').innerText = 'SCORE: '+quest1score_stupnovani.toString();
@@ -125,6 +123,7 @@
             document.getElementById('quizButton_stupnovani').addEventListener('click', displayNextQuestion_stupnovani, { once: true });
         }
     }
+
     
     
 
