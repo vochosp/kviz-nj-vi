@@ -86,7 +86,6 @@ if(quizid >= 1 && quizid <= 10){
     display_specific("templateDiv")
     document.getElementById("music").style.display = "none";
 };
-console.log(previousPage)
 
 window.onload = function() {
     document.getElementById("music").play();

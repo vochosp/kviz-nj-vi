@@ -143,17 +143,14 @@ function next_question(){
     
 
 
-function show_score(){
-    document.getElementById("image").style.display = "none"
-    document.getElementById("odpovedi").style.display = "none"
-    //document.getElementById("answer").innerHTML = "Score"
+function show_score(score){
+    location.href = `../score?score=${score}`
     
 }
 
 
 if(parseInt(urlImageId)> maximumQuestionId){
-    document.getElementById("pictures").innerHTML = "";
-    show_score()
+    show_score(score)
 }
 else{
     const correct_answer_sport_name = get_sport_name(urlImageId)
