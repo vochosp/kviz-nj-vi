@@ -1,7 +1,7 @@
-3000;["I", "O", "K, "S", "E", "Y", "E", "H", "C"];Eishockey;
-3001;["L", "U", "F", "N", "I", "E", "E", "S", "A"];Eislaufen;
-3002;["D", "R", "A", "W", "N", "O", "B", "S", "O",  "H", "N", "F", "A", "R", "E"];Snowboard fahren;
-3003;["T", "L", "N", "O", "H", "I", "B", "A"];Biathlon;
-3004;["N", "I", "G", "C", "U", "L", "R"];Curling;
-3005;["F", "N", "G", "L", "U", "A", "I", "S", "K", "L", "A"];Skilanglauf;
-3006;["U", "N", "E", "A", "L", "F", "S", "I", "S", "T", "U", "K"];Eiskunstlauf;
+3000;["E", "I", "S", "H", "O", "C", "K", "E", "Y"];Eishockey;
+3001;["E", "I", "S", "L", "A", "U", "F", "E", "AN"];Eislaufen;
+3002;["S", "N", "O", "W", "B", "O", "A", "R", "D",  "F", "A", "H", "R", "E", "N"];Snowboard fahren;
+3003;["B", "I", "A", "T", "H", "L", "O", "N"];Biathlon;
+3004;["C", "U", "R", "L", "I", "N", "G"];Curling;
+3005;["S", "K", "I", "L", "A", "N", "G", "L", "A", "U", "F"];Skilanglauf;
+3006;["E", "I", "S", "K", "U", "N", "S", "T", "L", "A", "U", "F"];Eiskunstlauf;
