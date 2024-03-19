@@ -50,7 +50,7 @@ app.get('/', (req, res)=>{
 	//Pridani sablony skladba
 	site_code = set_side_code(site_code, 2000, "./templates/skladba_temp.html" )
 
-	site_code = set_side_code(site_code, 3000, "./templates/presmicka_temp.html" )
+	site_code = set_side_code(site_code, 3000, "./templates/what_if.html" )
 	
 	//Pridani sablony pictureDef
 	site_code = set_side_code(site_code, 4000, "./templates/pictureDef.html")
@@ -69,9 +69,6 @@ app.get('/', (req, res)=>{
 	// Odeslani cele promene do resultu
 	res.write(site_code); 
 	res.end(); 
-})
-app.post('/', (req, res) => {
-	res.redirect(`/post?score=${req.score}`, )
 })
 
 app.get('/tab1', (req, res)=>{

@@ -70,7 +70,8 @@
     </style>
 </head>
 <body>
-<div id="drop_zone" class = "drop_zone">
+<div id="drop_zone" class = "drop_zone">    
+    <h2 id="score1">score: 0</h2>
     <h2>Schreib den richtigen Buchstabe ein</h2>
     <form id="formular" action="answer" method="post">
         <div id="input_field"></div>
@@ -82,46 +83,76 @@
     <div id="letters_div"></div>
     
 </div>
-
 <script>
-    console.log('sup')
-    const csvDatas = `
-        #DATA#
+    const data1 = `
+        "#DATA#"
     `;
 
-    let currentQuestionIndexes = -1;
-    let questionse = [];
+    const ParseCSVData1 = data1 => {
+        const lines1 = data1.trim().split('\n')
+        const res1 = {}
+        lines1.map(line1 => {
+            let [id1, words1] = line1.trim().replace('"', "").split(';')
+            if (words1 === undefined) return
+            
+            res1[id1] = words1.split(" ").map(words1 =>{
+                return words1.trim()
+            })
+        })
+        return res1
+    };
+    const words1 = ParseCSVData(data1);
 
-    // Parse CSV data
-    // Predelana uplne retardovane, protoze muj maly monkeybrain nedokazal vymyslet lepsi zpusob
     
-    const csvRowse = csvDatas.trim().split('\n');
-    for (const row of csvRowse) {
-        const [id, sentence, answer] = row.split(';');
-        questionse.push({ id, sentence, answer });
+
+    
+    let score1 = parseInt(new URLSearchParams(window.location.search).get('score'))
+    if (isNaN(score1)){
+        score1 = 0
     }
-    let arr = []
-    
-    for(x in questionse){
+    const currentSentenceId1 = parseInt(new URLSearchParams(window.location.search).get('id'))
+
+    let letters = []
+    let word1 = words1[currentSentenceId1].toString()
+    for(i=0; i<word1.length; i++){
+        letters.push(word1[i])
+    }
+    letters = shuffle(letters)
+    function nextQuestion1(score12){
         
-        arr.push(questionse[x]["sentence"].slice(1,-1)); 
-    }  
-    split = []
-    console.log(arr)
+        if (currentSentenceId1+1 == 3007){
     
-    arr.forEach(i=> {
+            location.href = '/score?score='+(score1+1)
+        }else{
+        location.href = '../?quizid=3&id=' + String(currentSentenceId1+1) + '&score='+String(score1+1)
+        }
+    }
 
-       split.push( i.split(','))
-    });
+    function shuffle(array) {
+  let currentIndexe = array.length,  randomIndex;
 
-    let current_question_index = 0;
+  // While there remain elements to shuffle.
+  while (currentIndexe > 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndexe);
+    currentIndexe--;
+
+    // And swap it with the current element.
+    [array[currentIndexe], array[randomIndex]] = [
+      array[randomIndex], array[currentIndexe]];
+  }
+
+  return array;
+}
 
 
     function create_html_elements(letters){
 
+        scoreTag = document.getElementById('score1')
+        scoreTag.innerText = score1
         let x = 0
-        letter_form = document.getElementById
-        ('letters_div')
+        letter_form = document.getElementById('letters_div')
 
         formular = document.getElementById('input_field')
 
@@ -144,15 +175,12 @@
             i.innerHTML = let.replace(/['"]+/g, '');
 
             div.append(i)
-            
+    
             letter_form.append(div)
             x++
 
         });
-
-
     }
-
     // není důležitý co to dělá, funguje to a já už na to nemám nervy
     function on_button_click(){
         let arr = []
@@ -169,33 +197,23 @@
             answer += elm
         });
 
-        if (answer.toLowerCase() ==questionse[current_question_index]['answer'].slice(2,-1).toLowerCase()){
-            current_question_index++
+        if (answer.toLowerCase() == word1.toLowerCase()){
             if (document.getElementById('result_message')!= undefined){
                 document.getElementById('result_message').remove();
             }
-            document.getElementById('input_field').innerText = ''
-            document.getElementById('letters_div').innerText = ''
 
+            scoreTag = document.getElementById('score1')
+            scoreTag.innerText = "score: "+score1
+            nextQuestion1()
             
-            main_div = document.getElementById('drop_zone')
-
-
             
-
-            result_message = document.createElement('h3')
-            result_message.innerText = 'Richtig'
-            result_message.id='result_message'
-            main_div.append(result_message)
-
-
-            
-           create_html_elements(split[current_question_index])
 
         }else{
             if (document.getElementById('result_message')!= undefined){
                 document.getElementById('result_message').remove();
             }
+            scoreTag = document.getElementById('score1')
+            
             main_div = document.getElementById('drop_zone')
             result_message = document.createElement('h3')
             result_message.innerText = 'Falsch'
@@ -203,11 +221,8 @@
             main_div.append(result_message)
         }
     }
-
-    create_html_elements(split[current_question_index])
+    create_html_elements(letters)
     
     
 </script>
 </body>
-</html>
-
