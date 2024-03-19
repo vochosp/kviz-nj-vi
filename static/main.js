@@ -44,6 +44,13 @@ function go_to_tab(tab){
     location.href = '../'+tab
 }
 
+function go_to_score(score){
+    location.href = `../score?score=${score}`
+}
+
+
+
+
 const quizid = urlParams.get('quizid');
 
 //zobrazí züruck button jen na hrách a na sadách
