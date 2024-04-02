@@ -2,8 +2,8 @@
     <img id = "image" src="" alt="" widht = "50%" height="50%">
     
     
-    <div id = score>
-        <p id = scoreText></p>
+    <div id = score2>
+        <p id = score2Text></p>
     </div>
     <div id = odpovedi>
         <button id = 4000button1 class = "button4000" onclick = "show_right_wrong_answer(this.id)">Odpověď A</button>
@@ -20,6 +20,7 @@
 const queryStringNaTuhleSracku = window.location.search;
 const urlParameters = new URLSearchParams(queryStringNaTuhleSracku);
 const urlImageId = urlParameters.get('id') //idčko z URL
+console.log(urlImageId)
 if(urlImageId == "4000" && queryStringNaTuhleSracku.includes("score") == false){
     location.href = '../?quizid=4&id=4000&score=0'
 }
@@ -35,8 +36,13 @@ const csvSports = `
 const maximumQuestionId = 4015 //id poslední otázky
 const buttonList = document.getElementsByClassName("button4000")
 
+let score2 = parseInt(urlParameters.get('score'))
+
+
+
+
 //výpis score
-document.getElementById("scoreText").innerHTML = "Score: "+String(score)+"/16"
+document.getElementById("score2Text").innerHTML = "Score: "+String(score2)+"/16"
 
 let imageList = []; //objekt pro uložení csv pro volání po indexech
 
@@ -73,6 +79,7 @@ function get_sport_name(id){
 //nastavení obrázku do html objektu ppodle vybraného sportu
 function set_image(sport_name){
     document.getElementById("image").setAttribute("alt", sport_name)
+    document.getElementById("image").setAttribute("class", "img")
     RightAnswerId = get_random_pictureList_index(4)
     document.getElementById("image").src = `${sport_name.toLowerCase()}.jpg`
 }
@@ -113,7 +120,7 @@ function show_right_wrong_answer(clickedButtonId){
     userAnswer = document.getElementById(clickedButtonId).id
     wrongRightText = document.getElementById("answer")
     if(userAnswer == urlImageId){
-        score+=1
+        score2+=1
         wrongRightText.innerHTML = "Richtige Antwort"
         document.getElementById("NextButton").style.display = "block"
         for(button of buttonList){
@@ -137,7 +144,7 @@ function show_right_wrong_answer(clickedButtonId){
 
 
 function next_question(){
-    location.href = '../?quizid=4&id='+ String(intUrlId+1) +'&score='+String(score)
+    location.href = '../?quizid=4&id='+ String(intUrlId+1) +'&score='+String(score2)
 }
     
 

@@ -3,7 +3,7 @@
 
 body{
     background: linear-gradient(0deg, hsla(272, 77%, 54%, 1) 0%, hsla(256, 90%, 46%, 1) 80%);
-    height:100vh;
+    height:150vh;
     color: white;
 }
 
@@ -115,4 +115,9 @@ body{
     text-align: left;
     font-family: 'Helvetica', 'Arial', sans-serif;
     font-size: 180%;
+}
+
+.img{
+    width: 50%;
+    height: 50%;
 }

@@ -1,5 +1,5 @@
 <div>
-    <div id="score" class="container"></div>
+    <div id="score0" class="container"></div>
     <div id="wordContainer" class="container"></div>
     <div id="dropFieldContainer" class="container"></div>
     <div class="container">
@@ -67,12 +67,23 @@
 
     const sentences = ParseCSVData(data);
 
-    let score = 0
+
+
+    let score0 = parseInt(new URLSearchParams(window.location.search).get('score'))
+
+    if (isNaN(score0)){
+        score0 = 0
+    }
 
     const currentSentenceId = parseInt(new URLSearchParams(window.location.search).get('id'))
     
     function nextQuestion(){
-        location.href = '../?quizid=2&id=' + String(currentSentenceId+1)
+        if(currentSentenceId+1 == 2004){
+            location.href = '../score?score='+ score0
+        }else{
+            location.href = '../?quizid=2&id=' + String(currentSentenceId+1) + '&score='+score0
+        }
+        
     }
 
     function allowDrop(ev) {
@@ -90,7 +101,7 @@
         const [draggedSentenceId, draggedWordIndex] = draggedId.split("-")
         const [targetSentenceId, targetWordIndex] = targetId.split("-")
         if( sentences[draggedSentenceId][draggedWordIndex] !== sentences[targetSentenceId][targetWordIndex] ) {
-            score--
+            score0--
             updateScore()
             showMessage("incorrect!", "red")
             return
@@ -100,7 +111,7 @@
         wordElement.draggable = false
         ev.target.appendChild(wordElement)
         const wordContainer = document.getElementById("wordContainer")
-        score++
+        score0++
         updateScore()
         showMessage("correct!", "green")
 
@@ -172,8 +183,8 @@
   }
 
   function updateScore(){
-      const scoreElement = document.getElementById("score")
-      scoreElement.innerText = "score: " + score
+      const scoreElement = document.getElementById("score0")
+      scoreElement.innerText = "score: " + score0
   }
 
 </script>
