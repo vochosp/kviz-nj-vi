@@ -2,8 +2,9 @@ This project was created for masters degree
 
 Czech quiz for learning purpose of german language
 
+Tento kód není vůbec bezpečný a není vůbec spolehlivý, nikdo z nás vůbec nevěděl co přesně dělá. Většinou jsme na této aplikaci pracovali v našem volném času. Tento projekt nebyl nijak oceněn školou. Ocenila nás jenom naše paní učitelka Mgr. Pártlová, pro kterou tento projek byl klíčový pro úspěšné ukončení jejího magisterského studia.
 
-this project started with Vite and Vue, but we realised that we don't know how to use it, so we settled on plain jss with express.
+Momentálně není udržován a není přístupná na adrese spieldequiz.xyz.
 
 
-This code is fucking terrible, personally I would burn it, I would scrap it all. So I hope noone ever sees it 
+
