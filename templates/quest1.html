@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        #quizContainer {
+            max-width: 500px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #sentence {
+            margin-bottom: 20px;
+        }
+
+        #resultMessage {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .correct-answer {
+            color: green;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<p id="score" class="score"></p>
+<p id="turn" class="score"></p>
+<div id="quizContainer">
+    <a id="hints"></a><br><br>
+    <p id="sentence"></p><br>
+    
+    <input type="text" id="userInput" placeholder="Gebe die Antwort ein">
+    <button id="quizButton" class = "button" type="button" onclick="handleQuizButton()">Antwort</button>
+    <p id="resultMessage"></p>
+</div>
+
+<script>
+    // Sample CSV data
+    const csvData = `
+        #DATA#
+    `;
+    let quest1score = 0;
+    let quest1turn = 0;
+
+    let currentQuestionIndex = -1;
+    let questions = [];
+
+    // Parse CSV data
+    const csvRows = csvData.trim().split('\n');
+    for (const row of csvRows) {
+        const [id, sentence, answer] = row.split(';');
+        questions.push({ id, sentence, answer });
+    }
+
+
+    // Show score
+    function showscore(){
+        document.getElementById('score').innerText = 'SCORE: '+quest1score.toString();
+        document.getElementById('turn').innerText = 'Runde: '+quest1turn.toString()+" /10";
+        if(quest1turn > 10){
+            go_to_score(quest1score)
+        }
+
+    };
+
+
+    // Display the next question
+    function displayNextQuestion() {
+        currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+        const currentQuestion = questions[currentQuestionIndex];
+        const sentence = currentQuestion.sentence.replace("###", '<span class="placeholder">________</span>');
+        document.getElementById('sentence').innerHTML = sentence;
+        document.getElementById('userInput').value = '';
+        document.getElementById('userInput').classList.remove('correct-answer');
+        document.getElementById('quizButton').innerText = 'Antwort';
+        document.getElementById('resultMessage').innerText = '';
+        document.getElementById('sentence').classList.remove('correct-answer');
+        showhints(questions);
+        showscore();
+    }
+
+    // Handle quiz button click
+    function handleQuizButton() {
+        const userInput = document.getElementById('userInput').value.trim();
+        const currentQuestion = questions[currentQuestionIndex];
+
+        if (userInput.toLowerCase() === currentQuestion.answer.toLowerCase()) {
+            document.getElementById('resultMessage').innerText = 'Richtige Antwort!';
+            document.getElementById('quizButton').innerText = 'Nächste Frage';
+            document.getElementById('sentence').innerHTML = currentQuestion.sentence.replace("###", `<span class="correct-answer">${userInput}</span>`);
+            document.getElementById('userInput').classList.add('correct-answer');
+            quest1score = quest1score + 0.5;
+            quest1turn = quest1turn + 0.5;
+            
+        } else {
+            document.getElementById('resultMessage').innerText = 'Falsche Antwort. Versuche es noch einmal.';
+            quest1score = quest1score - 1;
+            showscore();
+        }
+
+        if (document.getElementById('quizButton').innerText === 'Nächste Frage') {
+            document.getElementById('quizButton').addEventListener('click', displayNextQuestion, { once: true });
+        }
+    }
+    
+    function showhints(csvarray){
+        const currentQuestion = questions[currentQuestionIndex];
+        hints = [];
+        allanswers = [];
+        answer = [];
+        for (let i = 0; i < csvarray.length; i++) {
+            allanswers.push(csvarray[2]);
+        }
+
+        answer.push(currentQuestion.answer)
+        hints = chooseRandomItem(csvarray, 3, currentQuestion.answer);
+       
+        hintstext = shuffleArray(answer.concat(hints));
+
+        document.getElementById('hints').innerText = hintstext;
+        
+    };
+
+    function chooseRandomItem(array, count, correct) {
+        randomItem = [];
+        arrayCopy = array.slice();
+       
+        for (let i = 0; i < count; i++){
+            const randomIndex = Math.floor(Math.random() * arrayCopy.length);
+            if(arrayCopy[randomIndex].answer !== correct){
+                randomItem.push(arrayCopy[randomIndex].answer);
+            };
+                
+            arrayCopy.pop(randomIndex).answer;
+        };
+        return randomItem;
+    };
+
+    function shuffleArray(array){
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const temp = array[i];
+                 array[i] = array[j];
+                array[j] = temp;
+                };
+                return array;
+    };
+
+    // Initial display
+    displayNextQuestion();
+    
+</script>
+
+</body>
+</html>

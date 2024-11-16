@@ -1,0 +1,168 @@
+<div id = pictures class = picDefContainer>
+    <img id = "image" src="" alt="" widht = "50%" height="50%">
+    
+    
+    <div id = score2>
+        <p id = score2Text></p>
+    </div>
+    <div id = odpovedi>
+        <button id = 4000button1 class = "button4000" onclick = "show_right_wrong_answer(this.id)">Odpověď A</button>
+        <button id = 4000button2 class = "button4000" onclick = "show_right_wrong_answer(this.id)">Odpověď B</button>
+        <button id = 4000button3 class = "button4000" onclick = "show_right_wrong_answer(this.id)">Odpověď C</button>
+        <button id = 4000button4 class = "button4000" onclick = "show_right_wrong_answer(this.id)">Odpověď D</button>
+        <button id = "NextButton" class = "button" style = "display: none" onclick = "next_question()">Nächste</button>
+    </div>
+    <p id = answer></p>
+</div>
+
+<script>
+
+const queryStringNaTuhleSracku = window.location.search;
+const urlParameters = new URLSearchParams(queryStringNaTuhleSracku);
+const urlImageId = urlParameters.get('id') //idčko z URL
+console.log(urlImageId)
+if(urlImageId == "4000" && queryStringNaTuhleSracku.includes("score") == false){
+    location.href = '../?quizid=4&id=4000&score=0'
+}
+//if(urlImageId = "4000"){
+//    
+//} 
+intUrlId = parseInt(urlImageId) //intnutý idčko
+
+const csvSports = `
+        #DATA#
+    `;
+
+const maximumQuestionId = 4015 //id poslední otázky
+const buttonList = document.getElementsByClassName("button4000")
+
+let score2 = parseInt(urlParameters.get('score'))
+
+
+
+
+//výpis score
+document.getElementById("score2Text").innerHTML = "Score: "+String(score2)+"/16"
+
+let imageList = []; //objekt pro uložení csv pro volání po indexech
+
+//parse na objekt
+const pictureRows = csvSports.trim().split('\n');
+for (const imageRow of pictureRows) {
+    const [id, definition] = imageRow.split(';');
+    imageList.push({id, definition});
+}
+let imageListLenght= Object.keys(imageList).length //délka objektu s názvy obrázků a definicemi
+
+
+
+
+
+//funkce, která vyhodí random číselnej index, který je menší než maximum
+function get_random_pictureList_index(maximumNumber) {
+  return Math.floor(Math.random() * maximumNumber);
+}
+
+
+
+//vybrání sportu podle idčka v URL
+function get_sport_name(id){
+    for (image of imageList){
+        if(image['id'].trim() == id){ 
+            return image["definition"] 
+        }
+    }
+    
+}
+
+
+//nastavení obrázku do html objektu ppodle vybraného sportu
+function set_image(sport_name){
+    document.getElementById("image").setAttribute("alt", sport_name)
+    document.getElementById("image").setAttribute("class", "img")
+    RightAnswerId = get_random_pictureList_index(4)
+    document.getElementById("image").src = `${sport_name.toLowerCase()}.jpg`
+}
+
+
+function set_buttons(correct_answer){
+    //nastavení správné odpovědi
+    RightAnswerId = get_random_pictureList_index(4)//nastavím random tlačítku id z URL (správná odpověď) a definici
+    buttonList[RightAnswerId].id = urlImageId
+    buttonList[RightAnswerId].innerHTML = correct_answer 
+
+    
+    //nastavení zbytku tlačítek
+    let imageDefinitionIndexList = []
+    let lenght = 0
+    while(lenght<4){
+        temporaryIndex = get_random_pictureList_index(imageListLenght)
+        //kontroluju, jestli list už neobsahuje id, aby nebylo dvakrát a jestli se nerovná id URL, aby nebyly dvě správné odpovědi
+        //druhá podmínka prostě zajistí, že součet indexu a 4000 (main indexu) se nerovná id v URL, aby se ta id znovu nevypsala z listu, protože jsou po jednom seřezný
+        //je to odporný, ale normální zápis na kontrolu id nefunguje, protože JavaScript je zkurvená sračka a já nehodlám zjišťovat jak tahle lobotomie funguje
+        if(imageDefinitionIndexList.includes(temporaryIndex) != true && String(4000+temporaryIndex) != urlImageId){
+            imageDefinitionIndexList.push(temporaryIndex)
+            lenght+=1
+        }
+    }
+    for(let i = 0; i<4; i++){
+        if(buttonList[i].id != urlImageId){
+            buttonList[i].innerHTML = imageList[imageDefinitionIndexList[i]]["definition"]
+        }
+    }
+}
+
+
+
+
+//získám si kliklý tlačítko a pokud se jeho idčko rovná id v URL, vypíče se "Right Answer"
+function show_right_wrong_answer(clickedButtonId){
+    userAnswer = document.getElementById(clickedButtonId).id
+    wrongRightText = document.getElementById("answer")
+    if(userAnswer == urlImageId){
+        score2+=1
+        wrongRightText.innerHTML = "Richtige Antwort"
+        document.getElementById("NextButton").style.display = "block"
+        for(button of buttonList){
+            button.disabled = "true"
+        }
+    }
+    else{
+        if(urlImageId[2] == "0"){
+            wrongRightText.innerHTML = "Du hast falsch geantwortet. Die richtige Antwort ist:"+ imageList[parseInt(urlImageId[3])]["definition"]
+            }
+        else{
+            wrongRightText.innerHTML = "Du hast falsch geantwortet. Die richtige Antwort ist:"+ imageList[parseInt(urlImageId[2])+(urlImageId[3])]["definition"]
+            }
+        }
+        document.getElementById("NextButton").style.display = "block"
+        for(button of buttonList){
+            button.disabled = "true"
+    }
+}
+
+
+
+function next_question(){
+    location.href = '../?quizid=4&id='+ String(intUrlId+1) +'&score='+String(score2)
+}
+    
+
+
+function show_score(scorepic){
+    location.href = `../score?score=${scorepic}`
+    
+}
+
+
+if(parseInt(urlImageId)>maximumQuestionId && urlImageId[0] == 4){
+    show_score(parseInt(urlParameters.get("score")))
+}
+else{
+    const correct_answer_sport_name = get_sport_name(urlImageId)
+    set_buttons(correct_answer_sport_name)
+    set_image(correct_answer_sport_name)
+}
+
+
+</script>

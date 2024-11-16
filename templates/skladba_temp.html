@@ -1,0 +1,190 @@
+<div>
+    <div id="score0" class="container"></div>
+    <div id="wordContainer" class="container"></div>
+    <div id="dropFieldContainer" class="container"></div>
+    <div class="container">
+        <button id = "nextButton" style = "display: none" onclick = "nextQuestion()">Nächste</button>
+    </div>
+</div>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin-top: 50px;
+    }
+
+    #dropFieldContainer {
+        height: 100px;
+    }
+
+    .word, .dropField {
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin: 10px;
+        cursor: pointer;
+    }
+
+    .dropField {
+        background-color: grey;
+    }
+
+    .droppable {
+        border: 2px dashed #333;
+        padding: 20px;
+        min-height: 100px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        position: relative;
+    }
+
+</style>
+<script>
+
+    const data = `
+        "#DATA#"
+    `;
+
+    const ParseCSVData = data => {
+        const lines = data.trim().split('\n')
+        const res = {}
+        lines.map(line => {
+            let [id, words] = line.trim().replace('"', "").split(';')
+            if (words === undefined) return
+            
+            res[id] = words.split(" ").map(words =>{
+                return words.trim()
+            })
+        })
+        return res
+    };
+
+    const sentences = ParseCSVData(data);
+
+
+
+    let score0 = parseInt(new URLSearchParams(window.location.search).get('score'))
+
+    if (isNaN(score0)){
+        score0 = 0
+    }
+
+    const currentSentenceId = parseInt(new URLSearchParams(window.location.search).get('id'))
+    
+    function nextQuestion(){
+        if(currentSentenceId+1 == 2004){
+            location.href = '../score?score='+ score0
+        }else{
+            location.href = '../?quizid=2&id=' + String(currentSentenceId+1) + '&score='+score0
+        }
+        
+    }
+
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var draggedId = ev.dataTransfer.getData("text");
+        const targetId = event.target.id;
+        const [draggedSentenceId, draggedWordIndex] = draggedId.split("-")
+        const [targetSentenceId, targetWordIndex] = targetId.split("-")
+        if( sentences[draggedSentenceId][draggedWordIndex] !== sentences[targetSentenceId][targetWordIndex] ) {
+            score0--
+            updateScore()
+            showMessage("incorrect!", "red")
+            return
+        }
+
+        const wordElement = document.getElementById(draggedId)
+        wordElement.draggable = false
+        ev.target.appendChild(wordElement)
+        const wordContainer = document.getElementById("wordContainer")
+        score0++
+        updateScore()
+        showMessage("correct!", "green")
+
+        if (wordContainer.childNodes.length <= 0){
+            document.getElementById("nextButton").style.display = "block";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const wordContainer = document.getElementById("wordContainer");
+        const dropFieldContainer = document.getElementById("dropFieldContainer");
+
+        let wordId = 0
+        const wordElements = []
+        const dropFieldElements = []
+        const words = sentences[currentSentenceId]
+        words.forEach(function (word) {
+            const wordElement = document.createElement("div");
+            wordElement.className = "word";
+            wordElement.draggable = true;
+            wordElement.id = currentSentenceId + "-" + wordId
+            wordElement.innerText = word
+            wordElements.push(wordElement)
+
+            const dropField = document.createElement("div");
+            dropField.className = "word";
+            dropField.id = currentSentenceId + "-" + wordId
+            dropField.addEventListener("dragover", allowDrop);
+            dropField.addEventListener("drop", drop);
+            dropFieldContainer.appendChild(dropField)
+
+            wordId += 1
+        });
+
+        const shuffledWordElements = [...wordElements].sort(() => Math.random() - 0.5)
+        shuffledWordElements.forEach(function (wordElement) {
+            wordContainer.appendChild(wordElement)
+        });
+
+        shuffledWordElements.forEach(function (word) {
+            word.addEventListener('dragstart', function (event) {
+                event.dataTransfer.setData('text', event.target.id);
+            });
+        });
+        updateScore()
+    });
+
+    
+  function showMessage(message, backgroundColor) {
+    const messageElement = document.querySelector(".daddef-message");
+
+    if (!messageElement) {
+      // Create message element if it doesn't exist
+      const body = document.body;
+      const newMessageElement = document.createElement("div");
+      newMessageElement.className = "daddef-message";
+      body.appendChild(newMessageElement);
+    }
+
+    const updatedMessageElement = document.querySelector(".daddef-message");
+    updatedMessageElement.innerText = message;
+    updatedMessageElement.style.backgroundColor = backgroundColor
+    updatedMessageElement.style.display = "block";
+
+    // Hide the message after a short delay
+    setTimeout(() => {
+      updatedMessageElement.style.display = "none";
+    }, 2000);
+  }
+
+  function updateScore(){
+      const scoreElement = document.getElementById("score0")
+      scoreElement.innerText = "score: " + score0
+  }
+
+</script>

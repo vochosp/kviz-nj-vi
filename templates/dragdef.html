@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ergänze das Wort in den Satz</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin-top: 50px;
+    }
+
+    .daddef-word, .daddef-definition {
+      padding: 10px;
+      max-height: 5%;
+      border: 1px solid #ccc;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    .daddef-definition {
+      max-width: 15%;
+    }
+
+    .daddef-droppable {
+      border: 2px dashed #333;
+      padding: 20px;
+      max-height: 2.5%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      position: relative;
+    }
+
+    .daddef-message {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #f44336;
+      color: white;
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  const daddefVocabularyCSV = `
+    "#DATA#"
+  `;
+
+  const daddefParseCSVData = data => {
+    const lines = data.trim().split('\n');
+    const res = []
+    lines.forEach(line => {
+      if (line.split(';').length !== 3) return
+      const [id, word, definition] = line.trim().split(';')
+      res.push({ id, word, definition })
+    });
+    return res
+  };
+
+  const daddefVocabularyData = daddefParseCSVData(daddefVocabularyCSV);
+
+
+  function daddefAllowDrop(event) {
+    event.preventDefault();
+  }
+
+  function daddefDrop(event) {
+    event.preventDefault();
+    const data = event.dataTransfer.getData("text");
+    const draggedElement = document.getElementById(data);
+    const dropTarget = event.target;
+
+    if (dropTarget.classList.contains("daddef-droppable")) {
+      const wordId = draggedElement.id;
+      const definitionId = dropTarget.id;
+
+      if (wordId === definitionId) {
+        dropTarget.appendChild(draggedElement.cloneNode(true));
+        draggedElement.parentNode.removeChild(draggedElement);
+        daddefShowMessage("Korrekt. Weiter so!", "green");
+      } else {
+        daddefShowMessage("Falsch! Versuchen Sie es erneut.", "red");
+      }
+    }
+  }
+
+
+  function daddefShowMessage(message, backgroundColor) {
+    const messageElement = document.querySelector(".daddef-message");
+
+    if (!messageElement) {
+      // Create message element if it doesn't exist
+      const body = document.body;
+      const newMessageElement = document.createElement("div");
+      newMessageElement.className = "daddef-message";
+      body.appendChild(newMessageElement);
+    }
+
+    const updatedMessageElement = document.querySelector(".daddef-message");
+    updatedMessageElement.innerText = message;
+    updatedMessageElement.style.backgroundColor = backgroundColor
+    updatedMessageElement.style.display = "block";
+
+    // Hide the message after a short delay
+    setTimeout(() => {
+      updatedMessageElement.style.display = "none";
+    }, 2000);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const wordContainer = document.getElementById("daddef-word-container");
+    const definitionContainer = document.getElementById("daddef-definition-container");
+
+    daddefVocabularyData.forEach(function (item) {
+      const wordElement = document.createElement("div");
+      wordElement.className = "daddef-word";
+      wordElement.draggable = true;
+      wordElement.id = item.id;
+      wordElement.innerText = item.word;
+
+      wordContainer.appendChild(wordElement);
+    });
+
+    daddefVocabularyData.sort(() => Math.random() - 0.5)
+
+    daddefVocabularyData.forEach(function (item) {
+      const definitionElement = document.createElement("div");
+      definitionElement.className = "daddef-definition daddef-droppable";
+      definitionElement.id = item.id;
+      definitionElement.innerText = item.definition;
+
+      definitionContainer.appendChild(definitionElement);
+    });
+
+    const wordElements = document.querySelectorAll('.daddef-word');
+    wordElements.forEach(function (word) {
+      word.addEventListener('dragstart', function (event) {
+        event.dataTransfer.setData('text', event.target.id);
+      });
+    });
+
+    definitionContainer.addEventListener("dragover", daddefAllowDrop);
+    definitionContainer.addEventListener("drop", daddefDrop);
+  });
+</script>
+
+<div class="daddef-message"></div>
+
+<div class="container" id="daddef-word-container">
+  <p>Wörter:</p>
+</div>
+
+<div class="container" id="daddef-definition-container">
+  <p>Definitionen:</p>
+</div>
+
+</body>
+</html>
