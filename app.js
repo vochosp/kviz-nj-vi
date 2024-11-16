@@ -18,8 +18,8 @@ app.get('/', (req, res)=>{
 	final_data = {}
 	file_names.forEach(x => {
 	data = fs.readFileSync(`./data/${x}`).toString()
-	// tahle ta sracka ti umozni ziskat otazky pro ruzne skupiny pr 1000
-	// prida otazky do skupiny podle idcka, takze jedno ma treva klic 1000
+	// tohle umozni ziskat otazky pro ruzne skupiny pr 1000
+	// prida otazky do skupiny podle idcka, takze jedno ma treba klic 1000
 		if(`${data.slice(0,1)}000` in final_data){
 			final_data[`${data.slice(0,2)}00`] += data
 		}else{
